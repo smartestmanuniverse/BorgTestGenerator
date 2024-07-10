@@ -1,5 +1,5 @@
 #coding: utf-8
-from ..assistant import Assistant
+from assistant import Assistant
 import re
 
 def read_text_file(file_path):
@@ -7,12 +7,11 @@ def read_text_file(file_path):
         return in_file.read()
 
 class py3UnitTestFileWriter(object):
-    agent_model = "gpt-4o"
-    agent_name = "py3UnitTestFileWriter"
-    agent_act_as = read_text_file("agents/prompts/roles/linus_torvalds.txt")
-    agent_instructions = read_text_file("agents/prompts/instructions/py3_unit_tests_writer.txt")
-
     def __init__(self, assistant_id=None):
+        self.agent_model = "gpt-4o"
+        self.agent_name = "py3UnitTestFileWriter"
+        self.agent_act_as = read_text_file("agents/prompts/roles/linus_torvald.txt")
+        self.agent_instructions = read_text_file("agents/prompts/instructions/py3_unit_tests_writer.txt")
         # 0. Définir l'assistant
         self.define_assistant(assistant_id)
 
@@ -23,16 +22,17 @@ class py3UnitTestFileWriter(object):
             # 2. Charger l'assistant
             self.assistant.load_assistant()
         else:
-            self.assistant = None
+            self.assistant = Assistant(assistant_id=None)
         return self
     
     def search_and_retreive_assistant(self):
+        self.assistant = Assistant(assistant_id=None)
         assistant = self.assistant.exact_search_assistant(self.agent_name,
                                                             self.agent_model,
                                                             self.agent_instructions
                                                          )
         if assistant:
-            self.define_assistant(assistant['id'])
+            self.define_assistant(assistant.id)
         else:
             self.define_assistant(None)
             self.define_assistant(self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=True).get_assistant_id())
@@ -51,7 +51,7 @@ class py3UnitTestFileWriter(object):
         self.assistant.create_thread()
         return self
 
-    def create_new_user_message(self, message_type, message_content):
+    def create_new_user_message(self):
         # 6. Créer un message
         self.assistant.create_message("user", "Écrit le code du fichier test correspondant a ce script python")
         return self

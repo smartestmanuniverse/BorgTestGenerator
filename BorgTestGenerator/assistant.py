@@ -56,7 +56,7 @@ class Assistant(object):
         while True:
             # Récupère la liste des assistants avec les arguments spécifiés
             response = self.client.beta.assistants.list(**args)
-            assistants = response['data']
+            assistants = response.data
 
             if not assistants:
                 break
@@ -64,7 +64,7 @@ class Assistant(object):
             all_assistants.extend(assistants)
 
             # Met à jour l'argument 'after' pour récupérer la page suivante
-            args['after'] = assistants[-1]['id']
+            args['after'] = assistants[-1].id
 
         return all_assistants
     
@@ -76,13 +76,13 @@ class Assistant(object):
     def print_assistants_list(self):
         all_assistants = self.list_assistants()
         for assistant in all_assistants:
-            print(f"ID: {assistant['id']}, Nom: {assistant['name']}")
+            print(f"ID: {assistant.id}, Nom: {assistant.name}")
         return self
     
     def exact_search_assistant(self, name, model, instructions):
         assistants = self.list_assistants()
         for assistant in assistants:
-            if assistant['name'] == name and assistant['model'] == model and assistant['instructions'] == instructions:
+            if assistant.name == name and assistant.model == model and assistant.instructions == instructions:
                 return assistant
         return None
 
