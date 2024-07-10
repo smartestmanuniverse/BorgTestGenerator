@@ -29,6 +29,21 @@ class Assistant(object):
         )
         return self
     
+    def get_assistant_id(self):
+        return self.assistant.id
+    
+    def get_assistant_name(self):
+        return self.assistant.name
+    
+    def get_assistant_model(self):
+        return self.assistant.model
+    
+    def get_assistant_instructions(self):
+        return self.assistant.instructions
+    
+    def get_thread_id(self):
+        return self.thread.id
+    
     def list_assistants(self):
         args = {
             'after': None,

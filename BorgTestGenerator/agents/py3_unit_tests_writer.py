@@ -2,16 +2,41 @@
 from ..assistant import Assistant
 import re
 
+def read_text_file(file_path):
+    with open(file_path, 'r') as in_file:
+        return in_file.read()
+
 class py3UnitTestFileWriter(object):
-    def __init__(self, assistant_id=None) -> None:
+    agent_model = "gpt-4o"
+    agent_name = "py3UnitTestFileWriter"
+    agent_act_as = read_text_file("agents/prompts/roles/linus_torvalds.txt")
+    agent_instructions = read_text_file("agents/prompts/instructions/py3_unit_tests_writer.txt")
+
+    def __init__(self, assistant_id=None):
+        # 0. Définir l'assistant
+        self.define_assistant(assistant_id)
+
+    def define_assistant(self, assistant_id):
         if assistant_id:
             # 1. Créer une instance de l'assistant
-            self.assistant = Assistant(assistant_id=f"{assistant_id}")
+            self.assistant = Assistant(assistant_id=assistant_id)
+            # 2. Charger l'assistant
+            self.assistant.load_assistant()
         else:
-            self.assistant = Assistant(assistant_id=None)
-        
-        # 2. Charger l'assistant
-        self.assistant.load_assistant()
+            self.assistant = None
+        return self
+    
+    def search_and_retreive_assistant(self):
+        assistant = self.assistant.exact_search_assistant(self.agent_name,
+                                                            self.agent_model,
+                                                            self.agent_instructions
+                                                         )
+        if assistant:
+            self.define_assistant(assistant['id'])
+        else:
+            self.define_assistant(None)
+            self.define_assistant(self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=True).get_assistant_id())
+        return self
 
     def upload_files(self, vector_store_name, files_to_upload):
         # 3. Upload des fichiers
