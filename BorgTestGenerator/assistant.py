@@ -3,6 +3,7 @@
 
 from openai import OpenAI
 from os import getenv
+import json
 
 class Assistant(object):
     def __init__(self, assistant_id):
@@ -28,6 +29,48 @@ class Assistant(object):
         )
         return self
     
+    def list_assistants(self):
+        args = {
+            'after': None,
+            'limit': 100,
+            'order': 'asc',
+            'timeout': 30
+        }
+
+        all_assistants = []
+        while True:
+            # Récupère la liste des assistants avec les arguments spécifiés
+            response = self.client.beta.assistants.list(**args)
+            assistants = response['data']
+
+            if not assistants:
+                break
+
+            all_assistants.extend(assistants)
+
+            # Met à jour l'argument 'after' pour récupérer la page suivante
+            args['after'] = assistants[-1]['id']
+
+        return all_assistants
+    
+    def save_assistants_list(self, file_name):
+        with open(file_name, 'w') as file:
+            json.dump(self.list_assistants(), file)
+        return self
+    
+    def print_assistants_list(self):
+        all_assistants = self.list_assistants()
+        for assistant in all_assistants:
+            print(f"ID: {assistant['id']}, Nom: {assistant['name']}")
+        return self
+    
+    def exact_search_assistant(self, name, model, instructions):
+        assistants = self.list_assistants()
+        for assistant in assistants:
+            if assistant['name'] == name and assistant['model'] == model and assistant['instructions'] == instructions:
+                return assistant
+        return None
+
     def delete_assistant(self, assistant_id):
         self.client.beta.assistants.delete(assistant_id)
         return self
