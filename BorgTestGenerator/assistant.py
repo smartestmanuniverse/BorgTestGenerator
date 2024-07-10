@@ -10,8 +10,14 @@ class Assistant(object):
         self.client = OpenAI(api_key=getenv("OPENAI_API_KEY"))
         self.assistant_id = assistant_id
 
-    def load_assistant(self):
+    def load_assistant(self, assistant_id=None):
+        if assistant_id:
+            self.assistant_id = assistant_id
         self.assistant = self.client.beta.assistants.retrieve(f"{self.assistant_id}")
+        return self
+    
+    def delete_assistant(self, assistant_id):
+        self.client.beta.assistants.delete(assistant_id)
         return self
 
     def create_thread(self):
@@ -32,7 +38,6 @@ class Assistant(object):
             thread_id=self.thread.id
         )
         return self
-
 
     def upload_files(self, files_to_upload, vector_store_name):
         if type(files_to_upload) == str:
