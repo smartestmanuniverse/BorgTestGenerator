@@ -27,7 +27,8 @@ class py3UnitTestFileWriter(object):
     
     def search_and_retreive_assistant(self):
         self.assistant = Assistant(assistant_id=None)
-        assistant = self.assistant.exact_search_assistant(self.agent_name,
+        assistant = self.assistant.exact_search_assistant(
+                                                            self.agent_name,
                                                             self.agent_model,
                                                             self.agent_instructions
                                                          )
