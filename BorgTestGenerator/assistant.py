@@ -16,6 +16,20 @@ class Assistant(object):
         self.assistant = self.client.beta.assistants.retrieve(f"{self.assistant_id}")
         return self
     
+    def create_assistant(self, name, instructions, model="gpt-4o", tool_code_interpreter=False):
+        tools_ = []
+        if tool_code_interpreter:
+            tools_.append({"type": "code_interpreter"})
+
+        self.assistant = self.client.beta.assistants.create(
+            name=f"{name}",
+            instructions=f"{instructions}",
+            tools=tools_,
+            model=f"{model}"
+        )
+
+        return self
+    
     def delete_assistant(self, assistant_id):
         self.client.beta.assistants.delete(assistant_id)
         return self
