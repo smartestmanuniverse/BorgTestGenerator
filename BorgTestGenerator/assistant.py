@@ -5,7 +5,6 @@ from openai import OpenAI
 from os import getenv
 
 class Assistant(object):
-    
     def __init__(self, assistant_id):
         self.client = OpenAI(api_key=getenv("OPENAI_API_KEY"))
         self.assistant_id = assistant_id
@@ -27,7 +26,6 @@ class Assistant(object):
             tools=tools_,
             model=f"{model}"
         )
-
         return self
     
     def delete_assistant(self, assistant_id):
