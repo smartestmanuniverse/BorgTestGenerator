@@ -57,6 +57,8 @@ class py3UnitTestFileWriter(object):
         return self
 
     def run(self):
+        # 6. Créer un message
+        self.create_new_user_message()
         # 7. Créer un run
         self.assistant.create_run()
         return self

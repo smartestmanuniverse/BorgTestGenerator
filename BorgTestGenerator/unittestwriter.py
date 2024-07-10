@@ -19,7 +19,7 @@ class unittestwriter(py3UnitTestFileWriter):
                       ):
         try:
             self.upload_files(vector_store_name, files_to_upload)
-            self.create_new_thread().crate_new_user_message()
+            self.create_new_thread().create_new_user_message()
             self.run()
         except Exception as e:
             print(e)
