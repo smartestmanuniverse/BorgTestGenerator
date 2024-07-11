@@ -13,13 +13,15 @@ class Assistant(object):
     def load_assistant(self, assistant_id=None):
         if assistant_id:
             self.assistant_id = assistant_id
-        self.assistant = self.client.beta.assistants.retrieve(f"{self.assistant_id}")
+            self.assistant = self.client.beta.assistants.retrieve(f"{self.assistant_id}")
         return self
     
-    def create_assistant(self, name, instructions, model="gpt-4o", tool_code_interpreter=False):
+    def create_assistant(self, name, instructions, model="gpt-4o", tool_code_interpreter=False, tool_file_search=True):
         tools_ = []
         if tool_code_interpreter:
             tools_.append({"type": "code_interpreter"})
+        if tool_file_search:
+            tools_.append({"type": "file_search"})
 
         self.assistant = self.client.beta.assistants.create(
             name=f"{name}",
@@ -127,8 +129,8 @@ class Assistant(object):
             vector_store_id=self.vector_store.id, files=self.file_streams
         )
  
-        #print(self.file_batch.status)
-        #print(self.file_batch.file_counts)
+        print(self.file_batch.status)
+        print(self.file_batch.file_counts)
         return self
 
     def update_assistant_with_vector_store(self):
