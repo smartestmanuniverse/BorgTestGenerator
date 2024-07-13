@@ -4,11 +4,7 @@
 from openai import OpenAI
 from os import getenv
 from os import path
-from os import listdir
-from os import remove
 from os import makedirs
-from os import rmdir
-from os import walk
 import json
 import tempfile
 
@@ -73,8 +69,7 @@ class Assistant(object):
             all_assistants.extend(assistants)
 
             # Met à jour l'argument 'after' pour récupérer la page suivante
-            # use `last_id` instead of `id` to get the last id of the page
-            args['after'] = response.last_id
+            args['after'] = assistants[-1].id
 
         return all_assistants
     
@@ -157,39 +152,6 @@ class Assistant(object):
         else:
             return self.run.status
 
-# function to convert the assistant object to json ( if you need you can import libraries to do this )
-def assistant_to_json(assistant_object):
-    try: 
-        json_assistant_data_ = {
-            "id": str(assistant_object.id),
-            "created_at": int(assistant_object.created_at),
-            "description": assistant_object.description,
-            "instructions": assistant_object.instructions,
-            "metadata": assistant_object.metadata,
-            "model": assistant_object.model,
-            "name": assistant_object.name,
-            "object": f"{assistant_object.object}",
-            "tools": assistant_object.to_dict()["tools"],
-            "response_format": assistant_object.response_format,
-            "temperature": assistant_object.temperature,
-            "tool_resources": assistant_object.tool_resources.to_dict(),
-            "top_p": assistant_object.top_p
-        }
-    except Exception as e:
-        print( f"Error: {e}" )
-        exit(1)
-
-    try:
-        json_assistant_data = json.dumps(json_assistant_data_ ,
-                                            indent=4,
-                                            sort_keys=False)
-    except Exception as e:
-        print( f"Error: {e}" )
-        exit(1)        
-
-    return json_assistant_data
-
-
 
 class AssistantBackupManager(object):
     def __init__(self, backup_file = "assistants_list.json", init_refresh = True):
@@ -216,12 +178,51 @@ class AssistantBackupManager(object):
         self.assistants_list = []
         return self
     
-    def save_individual_assistant(self, backup_folder, assistant_object_data, file_name):
+    def save_assistant(self, backup_folder, assistant_id, file_name):
+        # function to convert the assistant object to json ( if you need you can import libraries to do this )
+        def assistant_to_json(assistant_object):
+            try: 
+                json_assistant_data_ = {
+                    "id": str(assistant_object.id),
+                    "created_at": int(assistant_object.created_at),
+                    "description": assistant_object.description,
+                    "instructions": assistant_object.instructions,
+                    "metadata": assistant_object.metadata,
+                    "model": assistant_object.model,
+                    "name": assistant_object.name,
+                    "object": f"{assistant_object.object}",
+                    "tools": assistant_object.to_dict()["tools"],
+                    "response_format": assistant_object.response_format,
+                    "temperature": assistant_object.temperature,
+                    "tool_resources": assistant_object.tool_resources.to_dict(),
+                    "top_p": assistant_object.top_p
+                }
+            except Exception as e:
+                print( f"Error: {e}" )
+                exit(1)
+
+            try:
+                json_assistant_data = json.dumps(json_assistant_data_ ,
+                                                    indent=4,
+                                                    sort_keys=False)
+            except Exception as e:
+                print( f"Error: {e}" )
+                exit(1)        
+
+            return json_assistant_data
+        
+        client = OpenAI(api_key=getenv("OPENAI_API_KEY"))
+        assistant_object = client.beta.assistants.retrieve(assistant_id)
+        assistant_object_data = assistant_to_json(assistant_object)
+        # ##############################################
+        #    Save the assistant object to a json file
+        # ##############################################
         with open(f"{backup_folder}/{file_name}", 'w') as file:
-            json.dump(assistant_object_data, file)
+            file.write(assistant_object_data)
+            file.close()
         return self
     
-    def delete_individual_assistant(self, assistant_id):
+    def delete_assistant(self, assistant_id):
         self.Assitant_Client.delete_assistant(assistant_id)
         return self
         
@@ -240,10 +241,13 @@ class AssistantBackupManager(object):
         self.save_assistants_from_list(backup_folder)
 
         # save each individual assistant to the backup folder.
-        for assistant in self.assistants_list.to_json()['data']:
-            self.save_individual_assistant(backup_folder, assistant, f"{assistant['id']}.json")
-            self.delete_individual_assistant(assistant['id'])
-        
+        for assistant in self.assistants_list:
+            self.save_assistant(
+                backup_folder,
+                assistant.id,
+                f"{assistant.name}_{assistant.id}.json"
+            )
+            # self.delete_assistant(assistant.id)
         # recresh assistants list again
         self.refresh_assistants_list()
         return self
