@@ -77,6 +77,31 @@ class Assistant(object):
 
         return all_assistants
     
+    def list_assistants_full(self):
+        args = {
+            'after': None,
+            'limit': 100,
+            'order': 'asc',
+            'timeout': 30
+        }
+
+        all_assistants = []
+        while True:
+            # Récupère la liste des assistants avec les arguments spécifiés
+            response = self.client.beta.assistants.list(**args)
+            assistants = response
+
+            if not assistants:
+                break
+
+            all_assistants.extend(assistants)
+
+            # Met à jour l'argument 'after' pour récupérer la page suivante
+            # use `last_id` instead of `id` to get the last id of the page
+            args['after'] = assistants.last_id
+
+        return all_assistants
+    
     def save_assistants_list(self, file_name):
         with open(file_name, 'w') as file:
             json.dump(self.list_assistants(), file)
@@ -168,13 +193,12 @@ class AssistantBackupManager(object):
 
     def refresh_assistants_list(self):
         self.assistants_list = []
-        self.assistants_list = self.Assitant_Client.list_assistants()
+        self.assistants_list = self.Assitant_Client.list_assistants_full()
         return self
     
     def save_assistants_from_list(self, backup_folder):
-        with open(f"{backup_folder}/{self.assistant_backup_file}", 'wb') as file:
-            file.write( json.dumps(self.assistants_list, indent=4, sort_keys=False).encode() )
-            file.close()
+        with open(f"{backup_folder}/{self.assistant_backup_file}", 'w') as file:
+            json.dump(self.assistants_list, file)
         return self
     
     def delete_assistants_from_list(self):
@@ -184,9 +208,8 @@ class AssistantBackupManager(object):
         return self
     
     def save_individual_assistant(self, backup_folder, assistant_object_data, file_name):
-        with open(f"{backup_folder}/{file_name}", 'wb') as file:
-            file.write( json.dumps(assistant_object_data, indent=4, sort_keys=False).encode() )
-            file.close()
+        with open(f"{backup_folder}/{file_name}", 'w') as file:
+            json.dump(assistant_object_data, file)
         return self
     
     def delete_individual_assistant(self, assistant_object_data):
