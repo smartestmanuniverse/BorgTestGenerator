@@ -268,3 +268,10 @@ class AssistantBackupManager(object):
         # recresh assistants list again
         self.refresh_assistants_list()
         return self
+
+
+"""
+from assistant import AssistantBackupManager
+bck = AssistantBackupManager()
+bck.backup()
+"""

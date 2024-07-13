@@ -41,3 +41,12 @@ class unittestwriter(py3UnitTestFileWriter):
         print(f"Réponse de l'assistant sauvegardée dans le fichier : {output_filename}")
 
         return self
+
+
+
+"""
+from unittestwriter import unittestwriter
+utw = unittestwriter()
+utw.run_generation("vector_store_name", ["unittestwriter.py"])
+utw.save_generation("test_unittestwriter.py")
+"""
