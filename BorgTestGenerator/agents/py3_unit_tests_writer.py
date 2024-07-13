@@ -93,10 +93,12 @@ class py3UnitTestFileWriter(object):
         data = self.assistant.get_assistant_messages()
         
         if remove_block_delimiters:
-            if re.match(r'^```{3,}', data.split('\n')[0]):
-                data = '\n'.join(data.split('\n')[1:])
-            if re.match(r'^```{3,}', data.split('\n')[-1]):
-                data = '\n'.join(data.split('\n')[:-1])
+            lines = data.split('\n')
+            if re.match(r'.*```.*', lines[0]):
+                lines = lines[1:]
+            if re.match(r'.*```.*', lines[-1]):
+                lines = lines[:-1]
+            data = '\n'.join(lines)
         
         print(f"Sauvegarde de la réponse de l'assistant dans le fichier : {file_path}")
         with open(file_path, 'w') as out_file:
