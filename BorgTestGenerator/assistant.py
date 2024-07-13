@@ -167,11 +167,6 @@ class AssistantBackupManager(object):
         self.assistants_list = self.Assitant_Client.list_assistants()
         return self
     
-    def save_assistants_from_list(self, backup_folder):
-        with open(f"{backup_folder}/{self.assistant_backup_file}", 'w') as file:
-            json.dump(self.assistants_list.to_json(), file)
-        return self
-    
     def delete_assistants_from_list(self):
         for assistant in self.assistants_list.data:
             self.Assitant_Client.delete_assistant(assistant.id)
@@ -236,10 +231,7 @@ class AssistantBackupManager(object):
         
         # refresh the list of assistants
         self.refresh_assistants_list()
-
-        # save all assistants to the backup folder.
-        self.save_assistants_from_list(backup_folder)
-
+        
         # save each individual assistant to the backup folder.
         for assistant in self.assistants_list:
             self.save_assistant(
