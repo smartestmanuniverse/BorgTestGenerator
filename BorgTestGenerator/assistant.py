@@ -158,36 +158,34 @@ class Assistant(object):
             return self.run.status
 
 # function to convert the assistant object to json ( if you need you can import libraries to do this )
-def assistant_to_json(assistant_object__data):
-    # # client = OpenAI(api_key=getenv("OPENAI_API_KEY"))
-
-    json_assistant_data_ = {
-        "id": assistant_object__data.id,
-        "created_at": assistant_object__data.created_at,
-        "description": assistant_object__data.description,
-        "instructions": assistant_object__data.instructions,
-        
-        "model": assistant_object__data.model,
-        "name": assistant_object__data.name,
-
-
-        "temperature": assistant_object__data.temperature,
-
-
-        "top_p": assistant_object__data.top_p,
-
-    }
+def assistant_to_json(assistant_object):
+    try: 
+        json_assistant_data_ = {
+            "id": str(assistant_object.id),
+            "created_at": int(assistant_object.created_at),
+            "description": assistant_object.description,
+            "instructions": assistant_object.instructions,
+            "metadata": assistant_object.metadata,
+            "model": assistant_object.model,
+            "name": assistant_object.name,
+            "object": f"{assistant_object.object}",
+            "tools": assistant_object.to_dict()["tools"],
+            "response_format": assistant_object.response_format,
+            "temperature": assistant_object.temperature,
+            "tool_resources": assistant_object.tool_resources.to_dict(),
+            "top_p": assistant_object.top_p
+        }
+    except Exception as e:
+        print( f"Error: {e}" )
+        exit(1)
 
     try:
         json_assistant_data = json.dumps(json_assistant_data_ ,
                                             indent=4,
-                                            sort_keys=True
-                                        )
-
+                                            sort_keys=False)
     except Exception as e:
-        print(f"Error: {e}")
+        print( f"Error: {e}" )
         exit(1)        
-
 
     return json_assistant_data
 
