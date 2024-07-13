@@ -3,7 +3,14 @@
 
 from openai import OpenAI
 from os import getenv
+from os import path
+from os import listdir
+from os import remove
+from os import makedirs
+from os import rmdir
+from os import walk
 import json
+import tempfile
 
 class Assistant(object):
     def __init__(self, assistant_id):
@@ -148,3 +155,63 @@ class Assistant(object):
             return self.messages.data[0].content[0].text.value
         else:
             return self.run.status
+
+
+class AssistantBackupManager(object):
+    def __init__(self, backup_file = "assistants_list.json", init_refresh = True):
+        self.Assitant_Client = Assistant(assistant_id=None)
+        self.assistants_list = []
+        self.assistant_backup_file = f"{backup_file}"
+        self.backup_folder = "/tmp/assistants_backup"
+        if init_refresh:
+            self.refresh_assistants_list()
+
+    def refresh_assistants_list(self):
+        self.assistants_list = []
+        self.assistants_list = self.Assitant_Client.list_assistants()
+        return self
+    
+    def save_assistants_from_list(self, backup_folder):
+        with open(f"{backup_folder}/{self.assistant_backup_file}", 'wb') as file:
+            file.write( json.dumps(self.assistants_list, indent=4, sort_keys=False).encode() )
+            file.close()
+        return self
+    
+    def delete_assistants_from_list(self):
+        for assistant in self.assistants_list:
+            self.Assitant_Client.delete_assistant(assistant.id)
+        self.assistants_list = []
+        return self
+    
+    def save_individual_assistant(self, backup_folder, assistant_object_data, file_name):
+        with open(f"{backup_folder}/{file_name}", 'wb') as file:
+            file.write( json.dumps(assistant_object_data, indent=4, sort_keys=False).encode() )
+            file.close()
+        return self
+    
+    def delete_individual_assistant(self, assistant_object_data):
+        self.Assitant_Client.delete_assistant(assistant_object_data.id)
+        return self
+        
+    def backup(self, backup_root_folder="/tmp/assistants_backup"):
+        # check if the backup root folder exists
+        if not path.exists(backup_root_folder):
+            makedirs(backup_root_folder)
+
+        # genreate name for the new backup folder ( with a random name )
+        backup_folder = tempfile.mkdtemp(dir=backup_root_folder)
+        
+        # refresh the list of assistants
+        self.refresh_assistants_list()
+
+        # save all assistants to the backup folder.
+        self.save_assistants_from_list(backup_folder)
+
+        # save each individual assistant to the backup folder.
+        for assistant in self.assistants_list:
+            self.save_individual_assistant(backup_folder, assistant, f"{assistant.id}.json")
+            self.delete_individual_assistant(assistant)
+        
+        # recresh assistants list again
+        self.refresh_assistants_list()
+        return self
