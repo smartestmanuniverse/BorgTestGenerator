@@ -73,32 +73,8 @@ class Assistant(object):
             all_assistants.extend(assistants)
 
             # Met à jour l'argument 'after' pour récupérer la page suivante
-            args['after'] = assistants[-1].id
-
-        return all_assistants
-    
-    def list_assistants_full(self):
-        args = {
-            'after': None,
-            'limit': 100,
-            'order': 'asc',
-            'timeout': 30
-        }
-
-        all_assistants = []
-        while True:
-            # Récupère la liste des assistants avec les arguments spécifiés
-            response = self.client.beta.assistants.list(**args)
-            assistants = response
-
-            if not assistants:
-                break
-
-            all_assistants.extend(assistants)
-
-            # Met à jour l'argument 'after' pour récupérer la page suivante
             # use `last_id` instead of `id` to get the last id of the page
-            args['after'] = assistants.last_id
+            args['after'] = response.last_id
 
         return all_assistants
     
@@ -181,6 +157,41 @@ class Assistant(object):
         else:
             return self.run.status
 
+# function to convert the assistant object to json ( if you need you can import libraries to do this )
+def assistant_to_json(assistant_object__data):
+    # # client = OpenAI(api_key=getenv("OPENAI_API_KEY"))
+
+    json_assistant_data_ = {
+        "id": assistant_object__data.id,
+        "created_at": assistant_object__data.created_at,
+        "description": assistant_object__data.description,
+        "instructions": assistant_object__data.instructions,
+        
+        "model": assistant_object__data.model,
+        "name": assistant_object__data.name,
+
+
+        "temperature": assistant_object__data.temperature,
+
+
+        "top_p": assistant_object__data.top_p,
+
+    }
+
+    try:
+        json_assistant_data = json.dumps(json_assistant_data_ ,
+                                            indent=4,
+                                            sort_keys=True
+                                        )
+
+    except Exception as e:
+        print(f"Error: {e}")
+        exit(1)        
+
+
+    return json_assistant_data
+
+
 
 class AssistantBackupManager(object):
     def __init__(self, backup_file = "assistants_list.json", init_refresh = True):
@@ -193,16 +204,16 @@ class AssistantBackupManager(object):
 
     def refresh_assistants_list(self):
         self.assistants_list = []
-        self.assistants_list = self.Assitant_Client.list_assistants_full()
+        self.assistants_list = self.Assitant_Client.list_assistants()
         return self
     
     def save_assistants_from_list(self, backup_folder):
         with open(f"{backup_folder}/{self.assistant_backup_file}", 'w') as file:
-            json.dump(self.assistants_list, file)
+            json.dump(self.assistants_list.to_json(), file)
         return self
     
     def delete_assistants_from_list(self):
-        for assistant in self.assistants_list:
+        for assistant in self.assistants_list.data:
             self.Assitant_Client.delete_assistant(assistant.id)
         self.assistants_list = []
         return self
@@ -212,8 +223,8 @@ class AssistantBackupManager(object):
             json.dump(assistant_object_data, file)
         return self
     
-    def delete_individual_assistant(self, assistant_object_data):
-        self.Assitant_Client.delete_assistant(assistant_object_data.id)
+    def delete_individual_assistant(self, assistant_id):
+        self.Assitant_Client.delete_assistant(assistant_id)
         return self
         
     def backup(self, backup_root_folder="/tmp/assistants_backup"):
@@ -231,9 +242,9 @@ class AssistantBackupManager(object):
         self.save_assistants_from_list(backup_folder)
 
         # save each individual assistant to the backup folder.
-        for assistant in self.assistants_list:
-            self.save_individual_assistant(backup_folder, assistant, f"{assistant.id}.json")
-            self.delete_individual_assistant(assistant)
+        for assistant in self.assistants_list.to_json()['data']:
+            self.save_individual_assistant(backup_folder, assistant, f"{assistant['id']}.json")
+            self.delete_individual_assistant(assistant['id'])
         
         # recresh assistants list again
         self.refresh_assistants_list()
