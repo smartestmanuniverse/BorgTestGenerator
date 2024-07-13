@@ -222,24 +222,49 @@ class AssistantBackupManager(object):
         return self
         
     def backup(self, backup_root_folder="/tmp/assistants_backup"):
-        # check if the backup root folder exists
-        if not path.exists(backup_root_folder):
-            makedirs(backup_root_folder)
+        def filename_formatify(name):
+            import re
+            # Rules:
+            # First :
+            #  - replace spaces by underscores
+            #  - replace dashes by underscores
+            # 
+            # Second :
+            #  - delete/remove/ignore (not replace) all other special characters (except underscores and dots)
+            #
+            # Third :
+            #  - Check: filename can contain only letters, numbers, underscores, and dots
+            #  - Check: letters can be in upper or lower case
+            #
+            # STEP 1
+            name = re.sub(r"\s+", "_", name)
+            name = re.sub(r"-", "_", name)
+            # STEP 2 & 3
+            name = re.sub(r"[^a-zA-Z0-9_.]", "", name)
+            return name
+
+        def make_backup_root_folder():
+            # check if the backup root folder exists
+            if not path.exists(backup_root_folder):
+                makedirs(backup_root_folder)
+        
+        make_backup_root_folder()
 
         # genreate name for the new backup folder ( with a random name )
         backup_folder = tempfile.mkdtemp(dir=backup_root_folder)
         
         # refresh the list of assistants
         self.refresh_assistants_list()
-        
+
         # save each individual assistant to the backup folder.
         for assistant in self.assistants_list:
+            file_name = filename_formatify(f"{assistant.name}_{assistant.id}.json")
             self.save_assistant(
                 backup_folder,
                 assistant.id,
-                f"{assistant.name}_{assistant.id}.json"
+                file_name
             )
-            # self.delete_assistant(assistant.id)
+            self.delete_assistant(assistant.id)
         # recresh assistants list again
         self.refresh_assistants_list()
         return self
