@@ -1,5 +1,5 @@
 #coding: utf-8
-from agents.py3_unit_tests_writer import py3UnitTestFileWriter
+from .agents.py3_unit_tests_writer import py3UnitTestFileWriter
 import os
 
 class unittestwriter(py3UnitTestFileWriter):

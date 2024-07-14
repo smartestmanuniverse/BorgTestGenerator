@@ -1,5 +1,5 @@
 #coding: utf-8
-from assistant import Assistant
+from ..assistant import Assistant
 import re
 import os
 
