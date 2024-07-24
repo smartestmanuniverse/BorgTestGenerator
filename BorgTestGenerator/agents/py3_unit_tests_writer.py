@@ -15,8 +15,8 @@ class py3UnitTestFileWriter(object):
     def __init__(self, assistant_id=None):
         self.agent_model = "gpt-4o"
         self.agent_name = "py3UnitTestFileWriter"
-        self.agent_act_as = read_text_file(pkg_resources.resource_filename(__name__, "agents/prompts/roles/linus_torvald.txt"))
-        self.agent_instructions = read_text_file(pkg_resources.resource_filename(__name__, "agents/prompts/instructions/py3_unit_tests_writer.txt"))
+        self.agent_act_as = read_text_file(pkg_resources.resource_filename(__name__, "prompts/roles/linus_torvald.txt"))
+        self.agent_instructions = read_text_file(pkg_resources.resource_filename(__name__, "prompts/instructions/py3_unit_tests_writer.txt"))
         # 0. Définir l'assistant
         
         self.define_assistant(assistant_id)
