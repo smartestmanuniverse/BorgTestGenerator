@@ -12,7 +12,7 @@ setup(
     description='Librairie pour générer des tests unitaires à partir de scripts Python en utilisant OpenAI.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/0x07cb/BorgTestGenerator',
+    url='https://github.com/smartestmanuniverse/BorgTestGenerator',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
