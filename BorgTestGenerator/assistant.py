@@ -2,24 +2,27 @@
 #coding: utf-8
 
 from openai import OpenAI
-from os import getenv
-from os import path
-from os import makedirs
+from os import getenv, path, makedirs
 import json
 import tempfile
 
 class Assistant(object):
-    def __init__(self, assistant_id):
+    def __init__(self, assistant_id: str|None):
         self.client = OpenAI(api_key=getenv("OPENAI_API_KEY"))
         self.assistant_id = assistant_id
 
-    def load_assistant(self, assistant_id=None):
+    def load_assistant(self, assistant_id: str = None) -> object:
         if assistant_id:
             self.assistant_id = assistant_id
             self.assistant = self.client.beta.assistants.retrieve(f"{self.assistant_id}")
         return self
     
-    def create_assistant(self, name, instructions, model="gpt-4o", tool_code_interpreter=False, tool_file_search=True):
+    def create_assistant(self, 
+                         name: str, 
+                         instructions: str, 
+                         model: str = "gpt-4o", 
+                         tool_code_interpreter: bool = False, 
+                         tool_file_search: bool = True) -> object:
         tools_ = []
         if tool_code_interpreter:
             tools_.append({"type": "code_interpreter"})
@@ -34,22 +37,22 @@ class Assistant(object):
         )
         return self
     
-    def get_assistant_id(self):
+    def get_assistant_id(self) -> str:
         return self.assistant.id
     
-    def get_assistant_name(self):
+    def get_assistant_name(self) -> str:
         return self.assistant.name
     
-    def get_assistant_model(self):
+    def get_assistant_model(self) -> str:
         return self.assistant.model
     
-    def get_assistant_instructions(self):
+    def get_assistant_instructions(self) -> str:
         return self.assistant.instructions
     
-    def get_thread_id(self):
+    def get_thread_id(self) -> str:
         return self.thread.id
     
-    def list_assistants(self):
+    def list_assistants(self) -> list:
         args = {
             'after': None,
             'limit': 100,
@@ -73,33 +76,38 @@ class Assistant(object):
 
         return all_assistants
     
-    def save_assistants_list(self, file_name):
+    def save_assistants_list(self, file_name: str) -> object:
         with open(file_name, 'w') as file:
             json.dump(self.list_assistants(), file)
         return self
     
-    def print_assistants_list(self):
+    def print_assistants_list(self) -> object:
         all_assistants = self.list_assistants()
         for assistant in all_assistants:
             print(f"ID: {assistant.id}, Nom: {assistant.name}")
         return self
     
-    def exact_search_assistant(self, name, model, instructions):
+    def exact_search_assistant(self, 
+                               name: str, 
+                               model: str, 
+                               instructions: str) -> object:
         assistants = self.list_assistants()
         for assistant in assistants:
             if assistant.name == name and assistant.model == model and assistant.instructions == instructions:
                 return assistant
         return None
 
-    def delete_assistant(self, assistant_id):
+    def delete_assistant(self, assistant_id: str) -> object:
         self.client.beta.assistants.delete(assistant_id)
         return self
 
-    def create_thread(self):
+    def create_thread(self) -> object:
         self.thread = self.client.beta.threads.create()
         return self
 
-    def create_message(self, role, content):
+    def create_message(self, 
+                       role: str, 
+                       content: str) -> object:
         self.message = self.client.beta.threads.messages.create(
             thread_id=self.thread.id,
             role=f"{role}",
@@ -107,14 +115,16 @@ class Assistant(object):
         )
         return self
 
-    def create_run(self):
+    def create_run(self) -> object:
         self.run = self.client.beta.threads.runs.create_and_poll(
             assistant_id=self.assistant.id,
             thread_id=self.thread.id
         )
         return self
 
-    def upload_files(self, files_to_upload, vector_store_name):
+    def upload_files(self, 
+                     files_to_upload: list|str,
+                     vector_store_name: str) -> object:
         if type(files_to_upload) == str:
             files_to_upload = [files_to_upload]
 
@@ -136,14 +146,14 @@ class Assistant(object):
         print(self.file_batch.file_counts)
         return self
 
-    def update_assistant_with_vector_store(self):
+    def update_assistant_with_vector_store(self) -> object:
         self.assistant = self.client.beta.assistants.update(
             assistant_id = self.assistant.id,
             tool_resources = {"file_search": {"vector_store_ids": [self.vector_store.id]}},
         )
         return self
 
-    def get_assistant_messages(self):
+    def get_assistant_messages(self) -> list|str|None:
         if self.run.status == 'completed': 
             self.messages = self.client.beta.threads.messages.list(
                 thread_id=self.thread.id
@@ -162,20 +172,23 @@ class AssistantBackupManager(object):
         if init_refresh:
             self.refresh_assistants_list()
 
-    def refresh_assistants_list(self):
+    def refresh_assistants_list(self) -> object:
         self.assistants_list = []
         self.assistants_list = self.Assitant_Client.list_assistants()
         return self
     
-    def delete_assistants_from_list(self):
+    def delete_assistants_from_list(self) -> object:
         for assistant in self.assistants_list.data:
             self.Assitant_Client.delete_assistant(assistant.id)
         self.assistants_list = []
         return self
     
-    def save_assistant(self, backup_folder, assistant_id, file_name):
+    def save_assistant(self, 
+                       backup_folder: str, 
+                       assistant_id: str,
+                       file_name: str) -> object:
         # function to convert the assistant object to json ( if you need you can import libraries to do this )
-        def assistant_to_json(assistant_object):
+        def assistant_to_json(assistant_object: object) -> str:
             try: 
                 json_assistant_data_ = {
                     "id": str(assistant_object.id),
@@ -217,12 +230,13 @@ class AssistantBackupManager(object):
             file.close()
         return self
     
-    def delete_assistant(self, assistant_id):
+    def delete_assistant(self, assistant_id: str) -> object:
         self.Assitant_Client.delete_assistant(assistant_id)
         return self
         
-    def backup(self, backup_root_folder="/tmp/assistants_backup"):
-        def filename_formatify(name):
+    def backup(self, 
+               backup_root_folder: str = "/tmp/assistants_backup") -> object:
+        def filename_formatify(name: str) -> str:
             import re
             # Rules:
             # First :
@@ -243,7 +257,7 @@ class AssistantBackupManager(object):
             name = re.sub(r"[^a-zA-Z0-9_.]", "", name)
             return name
 
-        def make_backup_root_folder():
+        def make_backup_root_folder() -> None:
             # check if the backup root folder exists
             if not path.exists(backup_root_folder):
                 makedirs(backup_root_folder)

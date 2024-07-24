@@ -3,16 +3,18 @@ from .agents.py3_unit_tests_writer import py3UnitTestFileWriter
 import os
 
 class unittestwriter(py3UnitTestFileWriter):
-    def __init__(self, assistant_id=None):
+    def __init__(self, assistant_id: str|None = None):
         super().__init__(assistant_id)
         #self.check_and_retreive()
 
-    def check_and_retreive(self):
+    def check_and_retreive(self) -> py3UnitTestFileWriter:
         if (type(self.assistant) == None) or (self.assistant.assistant_id == None):
             self.search_and_retreive_assistant()
         return self
     
-    def run_generation(self, vector_store_name, files_to_upload):
+    def run_generation(self, 
+                       vector_store_name: str, 
+                       files_to_upload: list[str]) -> py3UnitTestFileWriter:
         try:
             print("Début de la génération...")
             self.upload_files(vector_store_name, files_to_upload)
@@ -29,10 +31,10 @@ class unittestwriter(py3UnitTestFileWriter):
 
         
     def save_generation(self, 
-                        output_filepath,
-                        language=["python"],
-                        force_overwrite=False,
-                        backup_if_exists=True):
+                        output_filepath: str,
+                        language: str|bytes|list|None = ["python"],
+                        force_overwrite: bool = False,
+                        backup_if_exists: bool = True) -> py3UnitTestFileWriter:
         
         if os.path.exists(output_filepath):
             if force_overwrite:

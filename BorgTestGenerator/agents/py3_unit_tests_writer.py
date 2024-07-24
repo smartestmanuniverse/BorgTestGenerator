@@ -4,7 +4,7 @@ from ..parsers.code_blocks_parsing import codeBlocksParser
 import os
 import pkg_resources
 
-def read_text_file(file_path):
+def read_text_file(file_path: str) -> str|None:
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Le fichier {file_path} est manquant")
     
@@ -12,7 +12,8 @@ def read_text_file(file_path):
         return in_file.read()
 
 class py3UnitTestFileWriter(object):
-    def __init__(self, assistant_id=None):
+    def __init__(self, 
+                 assistant_id: str|None = None):
         self.agent_model = "gpt-4o"
         self.agent_name = "py3UnitTestFileWriter"
         self.agent_act_as = read_text_file(pkg_resources.resource_filename(__name__, "prompts/roles/linus_torvald.txt"))
@@ -22,7 +23,7 @@ class py3UnitTestFileWriter(object):
         self.define_assistant(assistant_id)
 
 
-    def define_assistant(self, assistant_id):
+    def define_assistant(self, assistant_id: str|None) -> object:
         if assistant_id == None:
             self.assistant = Assistant(assistant_id)
             self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=True, tool_file_search=True)
@@ -32,7 +33,7 @@ class py3UnitTestFileWriter(object):
             self.assistant.load_assistant()
         return self
     
-    def search_and_retreive_assistant(self):
+    def search_and_retreive_assistant(self) -> object:
         self.assistant = Assistant(assistant_id=None)
         assistant = self.assistant.exact_search_assistant(
                                                             self.agent_name,
@@ -46,7 +47,9 @@ class py3UnitTestFileWriter(object):
             self.define_assistant(self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=True).get_assistant_id())
         return self
 
-    def upload_files(self, vector_store_name, files_to_upload):
+    def upload_files(self, 
+                     vector_store_name: str,
+                     files_to_upload: list[str]) -> object:
         missing_files = [f for f in files_to_upload if not os.path.exists(f)]
         if missing_files:
             raise FileNotFoundError(f"Les fichiers suivants sont manquants : {missing_files}")
@@ -67,27 +70,27 @@ class py3UnitTestFileWriter(object):
         return self
 
 
-    def create_new_thread(self):
+    def create_new_thread(self) -> object:
         print("Création d'un nouveau thread")
         self.assistant.create_thread()
         return self
 
-    def create_new_user_message(self):
+    def create_new_user_message(self) -> object:
         print("Création d'un message utilisateur")
         self.assistant.create_message("user", "Écrit le code du fichier test correspondant a ce script python")
         return self
 
-    def run(self):
+    def run(self) -> object:
         print("Exécution du run")
         self.assistant.create_run()
         return self
 
-    def print_assistant_result(self):
+    def print_assistant_result(self) -> object:
         # 8. Récupérer les messages de l'assistant
         print(self.assistant.get_assistant_messages())
         return self
     
-    def get_assistant_result(self):
+    def get_assistant_result(self) -> str:
         return self.assistant.get_assistant_messages()
 
     def save_assistant_response_to_file(self, 
@@ -96,8 +99,8 @@ class py3UnitTestFileWriter(object):
                                         language=None,
                                         force_overwrite=False,
                                         backup_if_exists=True):
-        def backup_file(file_path, 
-                        remove_existing_file=False):
+        def backup_file(file_path: str, 
+                        remove_existing_file: bool = False) -> object:
             import shutil
             """
             # backup_file_path = f"{file_path}.bak"
@@ -111,7 +114,7 @@ class py3UnitTestFileWriter(object):
             et si oui, on ajoute un numero a la fin du fichier de sauvegarde, et on verifie a nouveau si le fichier existe deja,
             et on continue jusqu'a ce qu'on trouve un nom de fichier qui n'existe pas encore.
             """
-            def find_available_backup_filename(file_path):
+            def find_available_backup_filename(file_path: str) -> str:
                 backup_file_path = f"{file_path}.bak"
                 if os.path.exists(backup_file_path):
                     i = 1
