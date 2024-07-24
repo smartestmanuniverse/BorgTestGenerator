@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='BorgTestGenerator',
-    version='0.1.3',
+    version='0.1.4',
     packages=find_packages(),
     install_requires=['openai', 'python-dotenv'],
     author='0x07cb',

@@ -94,11 +94,11 @@ class py3UnitTestFileWriter(object):
         return self.assistant.get_assistant_messages()
 
     def save_assistant_response_to_file(self, 
-                                        file_path, 
-                                        remove_block_delimiters=True,
-                                        language=None,
-                                        force_overwrite=False,
-                                        backup_if_exists=True):
+                                        file_path: str,
+                                        remove_block_delimiters: bool = True,
+                                        language: str|bytes|list|None = None,
+                                        force_overwrite: bool = False,
+                                        backup_if_exists: bool = True) -> tuple[bool, str]:
         def backup_file(file_path: str, 
                         remove_existing_file: bool = False) -> object:
             import shutil
