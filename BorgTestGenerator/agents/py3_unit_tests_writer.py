@@ -160,6 +160,13 @@ class py3UnitTestFileWriter(object):
 
         if backup_if_exists:
             backup_file(file_path, remove_existing_file=force_overwrite)
-        write_file(file_path, final_data, force_overwrite)
-        return self
+        
+        file_saved_with_success = None
+        try:
+            write_file(file_path, final_data, force_overwrite)
+            file_saved_with_success = True
+        except FileExistsError:
+            file_saved_with_success = False
+        finally:
+            return file_saved_with_success, file_path
 
