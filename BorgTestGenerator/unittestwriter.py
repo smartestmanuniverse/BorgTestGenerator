@@ -1,5 +1,5 @@
 #coding: utf-8
-from agents.py3_unit_tests_writer import py3UnitTestFileWriter
+from .agents.py3_unit_tests_writer import py3UnitTestFileWriter
 import os
 
 class unittestwriter(py3UnitTestFileWriter):
@@ -28,18 +28,29 @@ class unittestwriter(py3UnitTestFileWriter):
         return self
 
         
-    def save_generation(self, output_filename, overwrite=False):
-        if os.path.exists(output_filename):
-            if overwrite:
-                os.remove(output_filename)
+    def save_generation(self, 
+                        output_filepath,
+                        language=["python"],
+                        force_overwrite=False,
+                        backup_if_exists=True):
+        
+        if os.path.exists(output_filepath):
+            if force_overwrite:
+                os.remove(output_filepath)
             else:
-                print(f"Le fichier {output_filename} existe déjà !")
+                print(f"Le fichier {output_filepath} existe déjà !")
                 return self
             
         print("Sauvegarde de la réponse de l'assistant...")
-        self.save_assistant_response_to_file(output_filename, remove_block_delimiters=True)
-        print(f"Réponse de l'assistant sauvegardée dans le fichier : {output_filename}")
-
+        success_, saved_filepath = self.save_assistant_response_to_file(output_filepath, 
+                                             remove_block_delimiters=True, 
+                                             language=language, 
+                                             force_overwrite=force_overwrite, 
+                                             backup_if_exists=backup_if_exists)
+        if success_:
+            print(f"Réponse de l'assistant sauvegardée dans le fichier : {saved_filepath}")
+        else:
+            print("Erreur lors de la sauvegarde de la réponse de l'assistant dans le fichier : {saved_filepath}")
         return self
 
 

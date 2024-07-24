@@ -1,7 +1,8 @@
 #coding: utf-8
-from assistant import Assistant
-import re
+from ..assistant import Assistant
+from ..parsers.code_blocks_parsing import codeBlocksParser
 import os
+import pkg_resources
 
 def read_text_file(file_path):
     if not os.path.exists(file_path):
@@ -14,8 +15,8 @@ class py3UnitTestFileWriter(object):
     def __init__(self, assistant_id=None):
         self.agent_model = "gpt-4o"
         self.agent_name = "py3UnitTestFileWriter"
-        self.agent_act_as = read_text_file("agents/prompts/roles/linus_torvald.txt")
-        self.agent_instructions = read_text_file("agents/prompts/instructions/py3_unit_tests_writer.txt")
+        self.agent_act_as = read_text_file(pkg_resources.resource_filename(__name__, "prompts/roles/linus_torvald.txt"))
+        self.agent_instructions = read_text_file(pkg_resources.resource_filename(__name__, "prompts/instructions/py3_unit_tests_writer.txt"))
         # 0. Définir l'assistant
         
         self.define_assistant(assistant_id)
@@ -89,16 +90,84 @@ class py3UnitTestFileWriter(object):
     def get_assistant_result(self):
         return self.assistant.get_assistant_messages()
 
-    def save_assistant_response_to_file(self, file_path, remove_block_delimiters=False):
+    def save_assistant_response_to_file(self, 
+                                        file_path, 
+                                        remove_block_delimiters=True,
+                                        language=None,
+                                        force_overwrite=False,
+                                        backup_if_exists=True):
+        def backup_file(file_path, 
+                        remove_existing_file=False):
+            import shutil
+            """
+            # backup_file_path = f"{file_path}.bak"
+            cela est trop basique,
+            si f"{file_path}.bak" existe deja cela resterai leger comme probleme
+            , mais si f"{file_path}.bak" et f"{file_path}.bak.bak" existent deja et qui sait encore...
+            cela deviendra un probleme serieux, autant dire cela serait une catastrophe !
+            rendez vous compte que cela ferait que cette protection serait inutile !
+            Donc,
+            Ce que je propose en tant qu'humain, c'est de faire une boucle qui verifie si le fichier existe deja,
+            et si oui, on ajoute un numero a la fin du fichier de sauvegarde, et on verifie a nouveau si le fichier existe deja,
+            et on continue jusqu'a ce qu'on trouve un nom de fichier qui n'existe pas encore.
+            """
+            def find_available_backup_filename(file_path):
+                backup_file_path = f"{file_path}.bak"
+                if os.path.exists(backup_file_path):
+                    i = 1
+                    while True:
+                        backup_file_path = f"{file_path}.bak.{i}"
+                        if not os.path.exists(backup_file_path):
+                            break
+                        i += 1
+                return backup_file_path
+            
+            backup_file_path = find_available_backup_filename(file_path)
+            
+            if os.path.exists(file_path):
+                if remove_existing_file:
+                    # rename (move) the file to the backup file
+                    os.rename(file_path, backup_file_path)
+                else:
+                    # copy the file to the backup file
+                    shutil.copy(file_path, backup_file_path)
+            return self
+
+        
+        def write_file(file_path: str, 
+                       data: str|bytes, 
+                       force_overwrite: bool = False) -> None:
+            
+            file_exists = os.path.exists(file_path)
+
+            if ( ( file_exists == True ) and ( force_overwrite == True ) ) or ( file_exists == False ):
+                if type(data) == bytes:
+                    with open(file_path, 'wb') as output_file:
+                        output_file.write(data)
+
+                elif type(data) == str:
+                    with open(file_path, 'w') as output_file:
+                        output_file.write(data)
+            else:
+                raise FileExistsError
+
         data = self.assistant.get_assistant_messages()
-        
         if remove_block_delimiters:
-            if re.match(r'^```{3,}', data.split('\n')[0]):
-                data = '\n'.join(data.split('\n')[1:])
-            if re.match(r'^```{3,}', data.split('\n')[-1]):
-                data = '\n'.join(data.split('\n')[:-1])
+            parsed_data = codeBlocksParser(data, language=language)
+            final_blocks = [ block["code"] for block in parsed_data['code_blocks'] ]
+            final_data = '\n'.join(final_blocks)
+        else:
+            final_data = data
+
+        if backup_if_exists:
+            backup_file(file_path, remove_existing_file=force_overwrite)
         
-        print(f"Sauvegarde de la réponse de l'assistant dans le fichier : {file_path}")
-        with open(file_path, 'w') as out_file:
-            out_file.write(data)
-        return self
+        file_saved_with_success = None
+        try:
+            write_file(file_path, final_data, force_overwrite)
+            file_saved_with_success = True
+        except FileExistsError:
+            file_saved_with_success = False
+        finally:
+            return file_saved_with_success, file_path
+
