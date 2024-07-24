@@ -1,112 +1,7 @@
 #coding: utf-8
 from ..assistant import Assistant
-
+from ..parsers.code_blocks_parsing import codeBlocksParser
 import os
-
-
-def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> list:
-    import re
-    # function to convert bytes to string
-    def bytes_to_string(data: bytes) -> str:
-        return data.decode()
-
-    # function with regex to match code blocks into a string
-    def match_code_blocks(data: str|bytes) -> list:
-        return re.findall(r"```(.+?)```", data, re.DOTALL)
-
-    # function to match single code blocks
-    def match_single_code_blocks(data: str|bytes) -> list:
-        # individual blocks delimited on same line only matched
-        # exemple delimited : "`command line --option`"
-        # the individual block is matched if it is on the same line, 
-        # and after the delim of beginning and before the delim of end no "`" is found withoyt line return found
-        return re.findall(r"`([^`\n]+)`", data)
-
-    def split_code_block(code_block: str) -> dict:
-        block = code_block.split('\n')
-        # remove the first line if it is empty
-        # and define the language if it is not defined
-        if block[0] == '':
-            language = None
-            block = block[1:]
-        elif block[0] != '':
-            language = block[0]
-            block = block[1:]
-        # remove the last line if it is empty
-        if block[-1] == '':
-            block = block[:-1]
-        return {
-            'language': language,
-            'code': '\n'.join(block)
-        }
-
-    def parse_blocks(data: str|bytes) -> dict:
-        if type(data) == bytes:
-            data = bytes_to_string(data)
-
-        single_code_blocks = match_single_code_blocks(data)
-        code_blocks = match_code_blocks(data)
-        splited_code_blocks = [split_code_block(block) for block in code_blocks]
-        return {
-            'single_code_blocks': single_code_blocks,
-            'code_blocks': splited_code_blocks
-        }
-
-    def keep_only_blocks_by_language(parsed_blocks: dict, language: str|bytes|list|None) -> dict:
-        if language == None:
-            return parsed_blocks
-        elif type(language) == str:
-            language = [language]
-        elif type(language) == bytes:
-            language = [language.decode()]
-
-        keeped_blocks = []
-        for parsed_block in parsed_blocks['code_blocks']:
-            if parsed_block['language'] in language:
-                keeped_blocks.append(parsed_block)
-        return {
-            'single_code_blocks': parsed_blocks['single_code_blocks'],
-            'code_blocks': keeped_blocks
-        }
-
-    # ############# MAIN FUNCTION #############
-    parsed_blocks = parse_blocks(data)
-    return keep_only_blocks_by_language(parsed_blocks, language)
-
-
-    
-
-
-
-"""
-IDEAS:
-
-```python
-    # Regex to match file paths and associated code blocks
-    regex = r"(\S+)\n\s*```[^\n]*\n(.+?)```"
-```
-
-```python
-# # Regex to match individual diff blocks
-# r"```.*?\n\s*?--- .*?\n\s*?\+\+\+ .*?\n(?:@@ .*? @@\n(?:[-+ ].*?\n)*?)*?```",
-        re.DOTALL
-```
-
-```python
-    # Clean and standardize the file path
-    path = re.sub(r'[\:<>"|?*]', "", match.group(1))
-    path = re.sub(r"^\[(.*)\]$", r"\1", path)
-    path = re.sub(r"^`(.*)`$", r"\1", path)
-   
-    path = re.sub(r"[\]\:]$", "", path)
-```
-
-```python
-Parses the header of a hunk from a diff.
-pattern = re.compile(r"^@@ -\d{1,},\d{1,} \+\d{1,},\d{1,} @@$")
-```
-"""
-
 
 def read_text_file(file_path):
     if not os.path.exists(file_path):
@@ -194,27 +89,77 @@ class py3UnitTestFileWriter(object):
     def get_assistant_result(self):
         return self.assistant.get_assistant_messages()
 
-    
+    def save_assistant_response_to_file(self, 
+                                        file_path, 
+                                        remove_block_delimiters=True,
+                                        language=None,
+                                        force_overwrite=False,
+                                        backup_if_exists=True):
+        def backup_file(file_path, 
+                        remove_existing_file=False):
+            import shutil
+            """
+            # backup_file_path = f"{file_path}.bak"
+            cela est trop basique,
+            si f"{file_path}.bak" existe deja cela resterai leger comme probleme
+            , mais si f"{file_path}.bak" et f"{file_path}.bak.bak" existent deja et qui sait encore...
+            cela deviendra un probleme serieux, autant dire cela serait une catastrophe !
+            rendez vous compte que cela ferait que cette protection serait inutile !
+            Donc,
+            Ce que je propose en tant qu'humain, c'est de faire une boucle qui verifie si le fichier existe deja,
+            et si oui, on ajoute un numero a la fin du fichier de sauvegarde, et on verifie a nouveau si le fichier existe deja,
+            et on continue jusqu'a ce qu'on trouve un nom de fichier qui n'existe pas encore.
+            """
+            def find_available_backup_filename(file_path):
+                backup_file_path = f"{file_path}.bak"
+                if os.path.exists(backup_file_path):
+                    i = 1
+                    while True:
+                        backup_file_path = f"{file_path}.bak.{i}"
+                        if not os.path.exists(backup_file_path):
+                            break
+                        i += 1
+                return backup_file_path
+            
+            backup_file_path = find_available_backup_filename(file_path)
+            
+            if os.path.exists(file_path):
+                if remove_existing_file:
+                    # rename (move) the file to the backup file
+                    os.rename(file_path, backup_file_path)
+                else:
+                    # copy the file to the backup file
+                    shutil.copy(file_path, backup_file_path)
+            return self
 
-    # #### [BEG] #### 
-    # # [INCORRECT] #
-    # def save_assistant_response_to_file(self, file_path, remove_block_delimiters=False):
-    #     data = self.assistant.get_assistant_messages()
         
-    #     if remove_block_delimiters:
-    #         lines = data.split('\n')
-    #         if re.match(r'.*```.*', lines[0]):
-    #             lines = lines[1:]
-    #         if re.match(r'.*```.*', lines[-1]):
-    #             lines = lines[:-1]
-    #         data = '\n'.join(lines)
-        
-    #     print(f"Sauvegarde de la réponse de l'assistant dans le fichier : {file_path}")
-    #     with open(file_path, 'w') as out_file:
-    #         out_file.write(data)
-    #     return self
-    # # [INCORRECT] #
-    # #### [END] ####
+        def write_file(file_path: str, 
+                       data: str|bytes, 
+                       force_overwrite: bool = False) -> None:
+            
+            file_exists = os.path.exists(file_path)
 
+            if ( ( file_exists == True ) and ( force_overwrite == True ) ) or ( file_exists == False ):
+                if type(data) == bytes:
+                    with open(file_path, 'wb') as output_file:
+                        output_file.write(data)
 
+                elif type(data) == str:
+                    with open(file_path, 'w') as output_file:
+                        output_file.write(data)
+            else:
+                raise FileExistsError
+
+        data = self.assistant.get_assistant_messages()
+        if remove_block_delimiters:
+            parsed_data = codeBlocksParser(data, language=language)
+            final_blocks = [ block["code"] for block in parsed_data['code_blocks'] ]
+            final_data = '\n'.join(final_blocks)
+        else:
+            final_data = data
+
+        if backup_if_exists:
+            backup_file(file_path, remove_existing_file=force_overwrite)
+        write_file(file_path, final_data, force_overwrite)
+        return self
 
