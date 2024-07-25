@@ -1,15 +1,10 @@
 #coding: utf-8
 from ..assistant import Assistant
 from ..parsers.code_blocks_parsing import codeBlocksParser
-from os import path, rename
-#import pkg_resources
+from ..utils.files import read_text_file
 
-def read_text_file(file_path: str) -> str|None:
-    if not path.exists(file_path):
-        raise FileNotFoundError(f"Le fichier {file_path} est manquant")
-    
-    with open(file_path, 'r') as in_file:
-        return in_file.read()
+from os import path, rename
+
     
 class Agent(object):
     def __init__(self, 
@@ -31,11 +26,14 @@ class Agent(object):
         # 0. Définir l'assistant
         self.define_assistant(assistant_id)
 
-
     def define_assistant(self, assistant_id: str|None) -> object:
         if assistant_id == None:
             self.assistant = Assistant(assistant_id)
-            self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=self.tool_code_interpreter, tool_file_search=self.tool_file_search)
+            self.assistant.create_assistant(self.agent_name, 
+                                            self.agent_instructions, 
+                                            self.agent_model, 
+                                            tool_code_interpreter = self.tool_code_interpreter, 
+                                            tool_file_search = self.tool_file_search)
             self.assistant.load_assistant(self.assistant.get_assistant_id())
         else:
             self.assistant = Assistant(assistant_id)
@@ -84,9 +82,10 @@ class Agent(object):
         self.assistant.create_thread()
         return self
 
-    def create_new_user_message(self) -> object:
+    def create_new_user_message(self, 
+                                message_from_user: str) -> object:
         print("Création d'un message utilisateur")
-        self.assistant.create_message("user", "Écrit le code du fichier test correspondant a ce script python")
+        self.assistant.create_message("user", message_from_user)
         return self
 
     def run(self) -> object:
