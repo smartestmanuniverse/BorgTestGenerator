@@ -100,7 +100,7 @@ class UnitTestWriter(BaseAgentWriter):
         return self
         
 """
-if __name__ == '__main__':
+    from BorgTestGenerator.agents.unittestwriter import UnitTestWriter
     testWriter = UnitTestWriter(code_language="python")
     testWriter.set_user_input("Écrit le code du fichier test correspondant a ce script python")
     testWriter.add_upload(["/path/to/file1.py", "/path/to/file2.py"])
