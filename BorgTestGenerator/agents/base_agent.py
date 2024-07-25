@@ -4,7 +4,6 @@ from ..parsers.code_blocks_parsing import codeBlocksParser
 from ..utils.files import read_text_file
 
 from os import path, rename
-
     
 class Agent(object):
     def __init__(self, 
