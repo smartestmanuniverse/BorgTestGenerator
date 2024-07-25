@@ -99,3 +99,11 @@ class UnitTestWriter(BaseAgentWriter):
                              backup_if_exists=True)
         return self
         
+"""
+if __name__ == '__main__':
+    testWriter = UnitTestWriter(code_language="python")
+    testWriter.set_user_input("Écrit le code du fichier test correspondant a ce script python")
+    testWriter.add_upload(["/path/to/file1.py", "/path/to/file2.py"])
+    testWriter.define_vector_store_name("test_vector_store")
+    testWriter.generate()
+"""
