@@ -1,10 +1,8 @@
 #coding: utf-8
 from ..assistant import Assistant
 from ..parsers.code_blocks_parsing import codeBlocksParser
-from ..utils.files import read_text_file
 
 from os import path, rename
-
     
 class Agent(object):
     def __init__(self, 
@@ -18,8 +16,9 @@ class Agent(object):
                  
         self.agent_model = agent_model
         self.agent_name = agent_name
-        self.agent_act_as = read_text_file(agent_act_as)
-        self.agent_instructions = read_text_file(agent_instructions)
+        self.agent_act_as = agent_act_as
+        self.agent_instructions = agent_instructions
+
         self.tool_code_interpreter = tool_code_interpreter
         self.tool_file_search = tool_file_search
 
