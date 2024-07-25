@@ -1,6 +1,8 @@
 #coding: utf-8
 
 from .base_agent_writer import BaseAgentWriter, FilesListToUpload
+from ..utils.files import read_text_file
+import pkg_resources
 import uuid
 
 class UnitTestWriter(BaseAgentWriter):
@@ -11,6 +13,17 @@ class UnitTestWriter(BaseAgentWriter):
         self.FilesToUpload = FilesListToUpload()
         self.user_input = ""
         self.code_language = code_language
+        self.define_agent_presets()
+
+    def define_agent_presets(self) -> object:
+        self.agent_name = "UnitTestWriter"
+        self.agent_model = "gpt-4o"
+        self.agent_act_as = read_text_file(pkg_resources.resource_filename(__name__, "prompts/roles/linus_torvald.txt"))
+        self.agent_instructions = read_text_file(pkg_resources.resource_filename(__name__, "prompts/instructions/py3_unit_tests_writer.txt"))
+        self.tool_code_interpreter = True
+        self.tool_file_search = True
+        return self
+
 
     # #####################################
     # Gestion des instructions utilisateur

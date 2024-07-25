@@ -4,9 +4,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='BorgTestGenerator',
-    version='0.2.0',
+    version='0.2.1',
     packages=find_packages(),
-    install_requires=['openai', 'python-dotenv'],
+    install_requires=[
+        'openai', 
+        'python-dotenv',
+    ],
     author='0x07cb',
     author_email='83157348+0x07CB@users.noreply.github.com',
     description='Librairie pour générer des tests unitaires à partir de scripts Python en utilisant OpenAI.',

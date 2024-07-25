@@ -3,8 +3,6 @@
 from .base_agent import Agent
 import os
 
-# from hashlib import sha1
-
 class FilesListToUpload(list):
     def __init__(self, files: list[str] = [],
                  vector_store_name: str|None = None):
