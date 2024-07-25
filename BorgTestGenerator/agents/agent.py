@@ -2,7 +2,7 @@
 from ..assistant import Assistant
 from ..parsers.code_blocks_parsing import codeBlocksParser
 from os import path, rename
-import pkg_resources
+#import pkg_resources
 
 def read_text_file(file_path: str) -> str|None:
     if not path.exists(file_path):
@@ -10,23 +10,32 @@ def read_text_file(file_path: str) -> str|None:
     
     with open(file_path, 'r') as in_file:
         return in_file.read()
-
-class py3UnitTestFileWriter(object):
+    
+class Agent(object):
     def __init__(self, 
-                 assistant_id: str|None = None):
-        self.agent_model = "gpt-4o"
-        self.agent_name = "py3UnitTestFileWriter"
-        self.agent_act_as = read_text_file(pkg_resources.resource_filename(__name__, "prompts/roles/linus_torvald.txt"))
-        self.agent_instructions = read_text_file(pkg_resources.resource_filename(__name__, "prompts/instructions/py3_unit_tests_writer.txt"))
+                 assistant_id: str|None = None, 
+                 agent_name: str = "Agent",
+                 agent_model: str = "gpt-4o",
+                 agent_act_as: str = "",
+                 agent_instructions: str = "",
+                 tool_code_interpreter: bool = True, 
+                 tool_file_search: bool = True):
+                 
+        self.agent_model = agent_model
+        self.agent_name = agent_name
+        self.agent_act_as = read_text_file(agent_act_as)
+        self.agent_instructions = read_text_file(agent_instructions)
+        self.tool_code_interpreter = tool_code_interpreter
+        self.tool_file_search = tool_file_search
+
         # 0. Définir l'assistant
-        
         self.define_assistant(assistant_id)
 
 
     def define_assistant(self, assistant_id: str|None) -> object:
         if assistant_id == None:
             self.assistant = Assistant(assistant_id)
-            self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=True, tool_file_search=True)
+            self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=self.tool_code_interpreter, tool_file_search=self.tool_file_search)
             self.assistant.load_assistant(self.assistant.get_assistant_id())
         else:
             self.assistant = Assistant(assistant_id)
@@ -44,7 +53,7 @@ class py3UnitTestFileWriter(object):
             self.define_assistant(assistant.id)
         else:
             self.define_assistant(None)
-            self.define_assistant(self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=True).get_assistant_id())
+            self.define_assistant(self.assistant.create_assistant(self.agent_name, self.agent_instructions, self.agent_model, tool_code_interpreter=self.tool_code_interpreter).get_assistant_id())
         return self
 
     def upload_files(self, 
@@ -173,4 +182,3 @@ class py3UnitTestFileWriter(object):
             file_saved_with_success = False
         finally:
             return file_saved_with_success, file_path
-
