@@ -442,27 +442,48 @@ class AssistantBackupManager(object):
 
         """
         def filename_formatify(name: str) -> str:
+            """
+            Formats the given filename according to the specified rules.
+
+            Args:
+                name (str): The original filename.
+
+            Returns:
+                str: The formatted filename.
+
+            Rules:
+            - First:
+                - Replace spaces by underscores.
+                - Replace dashes by underscores.
+            - Second:
+                - Delete/remove/ignore (not replace) all other special characters (except underscores and dots).
+            - Third:
+                - Check: filename can contain only letters, numbers, underscores, and dots.
+                - Check: letters can be in upper or lower case.
+            """
             import re
-            # Rules:
-            # First :
-            #  - replace spaces by underscores
-            #  - replace dashes by underscores
-            # 
-            # Second :
-            #  - delete/remove/ignore (not replace) all other special characters (except underscores and dots)
-            #
-            # Third :
-            #  - Check: filename can contain only letters, numbers, underscores, and dots
-            #  - Check: letters can be in upper or lower case
-            #
+
             # STEP 1
             name = re.sub(r"\s+", "_", name)
             name = re.sub(r"-", "_", name)
+
             # STEP 2 & 3
             name = re.sub(r"[^a-zA-Z0-9_.]", "", name)
+
             return name
 
         def make_backup_root_folder() -> None:
+            """
+            Creates the backup root folder if it doesn't exist.
+
+            This function checks if the backup root folder exists. If it doesn't, it creates the folder.
+
+            Parameters:
+                None
+
+            Returns:
+                None
+            """
             # check if the backup root folder exists
             if not path.exists(backup_root_folder):
                 makedirs(backup_root_folder)
