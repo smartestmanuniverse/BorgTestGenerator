@@ -1,7 +1,34 @@
 #coding: utf-8
 
 def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> list:
+    """
+    Parses code blocks from the given data and filters them based on the specified language(s).
+
+    Args:
+        data (str|bytes): The input data containing code blocks.
+        language (str|bytes|list|None, optional): The language(s) to filter the code blocks. Defaults to None.
+
+    Returns:
+        list: A list of dictionaries representing the parsed code blocks, each containing the language and code.
+
+    Example:
+        data = '''
+        Some text before the code block.
+
+        ```python
+        def hello_world():
+            print("Hello, World!")
+        ```
+
+        Some text after the code block.
+        '''
+
+        parsed_blocks = codeBlocksParser(data, language='python')
+        print(parsed_blocks)
+        # Output: [{'language': 'python', 'code': 'def hello_world():\n    print("Hello, World!")'}]
+    """
     import re
+
     # function to convert bytes to string
     def bytes_to_string(data: bytes) -> str:
         return data.decode()
@@ -13,9 +40,9 @@ def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> l
     # function to match single code blocks
     def match_single_code_blocks(data: str|bytes) -> list:
         # individual blocks delimited on same line only matched
-        # exemple delimited : "`command line --option`"
-        # the individual block is matched if it is on the same line, 
-        # and after the delim of beginning and before the delim of end no "`" is found withoyt line return found
+        # example delimited : "`command line --option`"
+        # the individual block is matched if it is on the same line,
+        # and after the delim of beginning and before the delim of end no "`" is found without line return found
         return re.findall(r"`([^`\n]+)`", data)
 
     def split_code_block(code_block: str) -> dict:
