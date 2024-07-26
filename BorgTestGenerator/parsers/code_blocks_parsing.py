@@ -64,6 +64,17 @@ def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> l
         }
 
     def parse_blocks(data: str|bytes) -> dict:
+        """
+        Parse the given data and extract single code blocks and code blocks.
+
+        Args:
+            data (str|bytes): The data to be parsed. It can be either a string or bytes.
+
+        Returns:
+            dict: A dictionary containing the extracted single code blocks and code blocks.
+                The 'single_code_blocks' key maps to a list of single code blocks.
+                The 'code_blocks' key maps to a list of split code blocks.
+        """
         if type(data) == bytes:
             data = bytes_to_string(data)
 
@@ -76,6 +87,18 @@ def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> l
         }
 
     def keep_only_blocks_by_language(parsed_blocks: dict, language: str|bytes|list|None) -> dict:
+        """
+        Filters the parsed code blocks based on the specified language(s).
+
+        Args:
+            parsed_blocks (dict): The dictionary containing the parsed code blocks.
+            language (str|bytes|list|None): The language(s) to filter the code blocks by. 
+                It can be a single language string, a list of language strings, bytes, or None.
+
+        Returns:
+            dict: A dictionary containing the filtered code blocks.
+
+        """
         if language == None:
             return parsed_blocks
         elif type(language) == str:
