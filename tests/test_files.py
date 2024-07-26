@@ -1,5 +1,5 @@
 import unittest
-from utils.files import read_text_file
+from BorgTestGenerator.utils.files import read_text_file
 
 class TestFiles(unittest.TestCase):
     def test_read_text_file(self):
