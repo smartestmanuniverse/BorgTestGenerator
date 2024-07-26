@@ -31,21 +31,58 @@ def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> l
 
     # function to convert bytes to string
     def bytes_to_string(data: bytes) -> str:
+        """
+        Converts a bytes object to a string.
+
+        Args:
+            data (bytes): The bytes object to be converted.
+
+        Returns:
+            str: The string representation of the bytes object.
+        """
         return data.decode()
 
     # function with regex to match code blocks into a string
     def match_code_blocks(data: str|bytes) -> list:
+        """
+        Extracts code blocks from the given data.
+
+        Args:
+            data (str|bytes): The input data to search for code blocks.
+
+        Returns:
+            list: A list of code blocks found in the data.
+        """
         return re.findall(r"```(.+?)```", data, re.DOTALL)
 
     # function to match single code blocks
     def match_single_code_blocks(data: str|bytes) -> list:
-        # individual blocks delimited on same line only matched
-        # example delimited : "`command line --option`"
-        # the individual block is matched if it is on the same line,
-        # and after the delim of beginning and before the delim of end no "`" is found without line return found
+        """
+        Match and return a list of individual code blocks delimited by backticks (`) in the given data.
+
+        Args:
+            data (str|bytes): The input data to search for code blocks.
+
+        Returns:
+            list: A list of individual code blocks found in the data.
+
+        Example:
+            >>> data = "This is a `code block` example."
+            >>> match_single_code_blocks(data)
+            ['code block']
+        """
         return re.findall(r"`([^`\n]+)`", data)
 
     def split_code_block(code_block: str) -> dict:
+        """
+        Splits a code block into its language and code content.
+
+        Args:
+            code_block (str): The code block to be split.
+
+        Returns:
+            dict: A dictionary containing the language and code content of the code block.
+        """
         block = code_block.split('\n')
         # remove the first line if it is empty
         # and define the language if it is not defined
