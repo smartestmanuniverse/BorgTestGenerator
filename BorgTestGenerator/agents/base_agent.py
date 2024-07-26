@@ -6,24 +6,35 @@ from os import path, rename
     
 class Agent(object):
     def __init__(self, 
-                 assistant_id: str|None = None, 
-                 agent_name: str = "Agent",
-                 agent_model: str = "gpt-4o",
-                 agent_act_as: str = "",
-                 agent_instructions: str = "",
-                 tool_code_interpreter: bool = True, 
-                 tool_file_search: bool = True):
-                 
-        self.agent_model = agent_model
-        self.agent_name = agent_name
-        self.agent_act_as = agent_act_as
-        self.agent_instructions = agent_instructions
+                     assistant_id: str|None = None, 
+                     agent_name: str = "Agent",
+                     agent_model: str = "gpt-4o",
+                     agent_act_as: str = "",
+                     agent_instructions: str = "",
+                     tool_code_interpreter: bool = True, 
+                     tool_file_search: bool = True):
+            """
+            Initializes a new instance of the BaseAgent class.
 
-        self.tool_code_interpreter = tool_code_interpreter
-        self.tool_file_search = tool_file_search
+            Args:
+                assistant_id (str|None, optional): The ID of the assistant. Defaults to None.
+                agent_name (str, optional): The name of the agent. Defaults to "Agent".
+                agent_model (str, optional): The model used by the agent. Defaults to "gpt-4o".
+                agent_act_as (str, optional): The role the agent acts as. Defaults to "".
+                agent_instructions (str, optional): The instructions for the agent. Defaults to "".
+                tool_code_interpreter (bool, optional): Whether the agent can interpret code. Defaults to True.
+                tool_file_search (bool, optional): Whether the agent can search for files. Defaults to True.
+            """
+            self.agent_model = agent_model
+            self.agent_name = agent_name
+            self.agent_act_as = agent_act_as
+            self.agent_instructions = agent_instructions
 
-        # 0. Définir l'assistant
-        self.define_assistant(assistant_id)
+            self.tool_code_interpreter = tool_code_interpreter
+            self.tool_file_search = tool_file_search
+
+            # 0. Définir l'assistant
+            self.define_assistant(assistant_id)
 
     def define_assistant(self, assistant_id: str|None) -> object:
         if assistant_id == None:
