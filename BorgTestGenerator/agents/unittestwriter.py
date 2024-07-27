@@ -190,10 +190,11 @@ class UnitTestWriter(BaseAgentWriter):
         return self
         
 """
-    from BorgTestGenerator.agents.unittestwriter import UnitTestWriter
-    testWriter = UnitTestWriter(code_language="python")
-    testWriter.set_user_input("Écrit le code du fichier test correspondant a ce script python")
-    testWriter.add_upload(["/path/to/file1.py", "/path/to/file2.py"])
-    testWriter.define_vector_store_name("test_vector_store")
-    testWriter.generate()
+# Exemple d'utilisation
+from BorgTestGenerator.agents.unittestwriter import UnitTestWriter
+testWriter = UnitTestWriter(code_language="python")
+testWriter.set_user_input("Écrit le code du fichier test correspondant a ce script python")
+testWriter.add_upload(["/path/to/file1.py", "/path/to/file2.py"])
+testWriter.define_vector_store_name("test_vector_store")
+testWriter.generate()
 """
