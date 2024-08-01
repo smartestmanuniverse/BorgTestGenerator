@@ -17,7 +17,7 @@ Importe ici les modules nécessaires. (interne a BorgTestGenerator)
 # on a besoin de quoi pour completer ce code source ?
 from ...base_agent import Agent
 from ....utils.files import read_text_file
-
+import json
 
 class FilesListToUpload(list):
     def __init__(self, files: Optional[list[str]] = [], vector_store_name: Optional[str] = None):
