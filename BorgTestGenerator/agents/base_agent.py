@@ -6,7 +6,7 @@ from os import path, rename
     
 class Agent(object):
     def __init__(self, 
-                     assistant_id: str|None = None, 
+                     assistant_id: Optional[str] = None, 
                      agent_name: str = "Agent",
                      agent_model: str = "gpt-4o",
                      agent_act_as: str = "",
@@ -17,7 +17,7 @@ class Agent(object):
         Initializes a new instance of the BaseAgent class.
 
         Args:
-            assistant_id (str|None, optional): The ID of the assistant. Defaults to None.
+            assistant_id (Optional[str], optional): The ID of the assistant. Defaults to None.
             agent_name (str, optional): The name of the agent. Defaults to "Agent".
             agent_model (str, optional): The model used by the agent. Defaults to "gpt-4o".
             agent_act_as (str, optional): The role the agent acts as. Defaults to "".
@@ -220,6 +220,7 @@ class Agent(object):
 
             """
             import shutil
+from typing import Optional
 
             def find_available_backup_filename(file_path: str) -> str:
                 """
