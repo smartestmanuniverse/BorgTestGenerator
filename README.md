@@ -6,22 +6,16 @@ BorgTestGenerator is a Python library that generates unit test files from Python
 
 ## Installation
 
-### Installation ( with venv )
+### Installation from pip ( with venv )
 
-This section provides instructions for installing the project using a virtual environment (venv).
+This section provides instructions for installing the librarie package from pip using a virtual environment (venv).
 
-1. **Clone the repository:**
-    ```sh
-    git clone https://github.com/yourusername/BorgTestGenerator.git
-    cd BorgTestGenerator
-    ```
-
-2. **Create a virtual environment:**
+1. **Create a virtual environment:**
     ```sh
     python3 -m venv venv
     ```
 
-3. **Activate the virtual environment:**
+2. **Activate the virtual environment:**
     - On Linux or macOS:
         ```sh
         source venv/bin/activate
@@ -31,9 +25,14 @@ This section provides instructions for installing the project using a virtual en
         .\venv\Scripts\activate
         ```
 
-4. **Install the required dependencies:**
+3. **Update pip from pip:**
     ```sh
-    pip install -r requirements.txt
+    python3 -m pip install --upgrade pip
+    ```
+
+4. **Install the package from pip:**
+    ```sh
+    python3 -m pip install -U BorgTestGenerator
     ```
 
 
@@ -44,7 +43,7 @@ To use the `Assistant` class from the `BorgTestGenerator` module in your code, y
 1. Import the `Assistant` class from the `BorgTestGenerator` module in your Python file. Make sure the `BorgTestGenerator` module is installed in your Python environment using the `pip install BorgTestGenerator` command.
 
     ```python
-    from BorgTestGenerator import Assistant
+    from BorgTestGenerator.assistant import Assistant
     ```
 
 2. Create an instance of the `Assistant` class using the constructor. You can provide additional arguments to the constructor based on your application's needs.
@@ -52,6 +51,39 @@ To use the `Assistant` class from the `BorgTestGenerator` module in your code, y
     ```python
     assistant = Assistant()
     ```
+
+3. Set the user input that describes the task to be performed using the `set_user_input` method.
+    ```python
+    assistant.create_assistant(
+        name="Test Assistant",
+        instructions="This is a test assistant.",
+        model="gpt-4o",
+        tool_code_interpreter=True,
+        tool_file_search=True
+    )
+    ```
+
+
+### How To Use AssistantBackupManager
+
+Pour utiliser la classe [`AssistantBackupManager`]("README.md") du module `BorgTestGenerator.assistant`, suivez les étapes ci-dessous :
+
+1. **Importer la classe [`AssistantBackupManager`]("README.md")** :
+    ```python
+    from BorgTestGenerator.assistant import AssistantBackupManager
+    ```
+
+2. **Créer une instance de la classe `AssistantBackupManager`** :
+    ```python
+    assistant_backup_manager = AssistantBackupManager()
+    ```
+
+3. **Définir l'entrée utilisateur qui décrit la tâche à effectuer** :
+    ```python
+    assistant_backup_manager.backup()
+    ```
+
+Ces étapes permettent de configurer et d'utiliser le `AssistantBackupManager` pour gérer les sauvegardes de manière automatisée.
 
 
 ### How to use unittestwriter in your code
