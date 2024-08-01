@@ -4,10 +4,12 @@ from .base_agent_writer import BaseAgentWriter, FilesListToUpload
 from ..utils.files import read_text_file
 import pkg_resources
 import uuid
+from typing import Optional
+from typing import Union
 
 class UnitTestWriter(BaseAgentWriter):
     def __init__(self, 
-                 assistant_id: str|None = None,
+                 assistant_id: Optional[str] = None,
                  code_language: str = "python"):
         """
         Initializes the UnitTestWriter object.
@@ -87,7 +89,7 @@ class UnitTestWriter(BaseAgentWriter):
     # #####################################
     # Gestion des fichiers à télécharger
     # #####################################
-    def add_upload(self, filepath: str|list[str]) -> object:
+    def add_upload(self, filepath: Union[str, list[str]]) -> object:
         """
         Adds a file or a list of files to the FilesToUpload object.
 
@@ -108,7 +110,7 @@ class UnitTestWriter(BaseAgentWriter):
         return self
     
     def del_upload(self, 
-                   filepath: str|list[str]) -> object:
+                   filepath: Union[str, list[str]]) -> object:
         """
         Removes the specified file or files from the list of files to upload.
 
@@ -136,7 +138,7 @@ class UnitTestWriter(BaseAgentWriter):
         return self.FilesToUpload.list_files()
     
     def define_vector_store_name(self,
-                                 vector_store_name: str|None) -> object:
+                                 vector_store_name: Optional[str] = None) -> object:
         """
         Sets the name of the vector store.
 

@@ -3,7 +3,9 @@
 # import pkg_resources
 from os import path
 
-def read_text_file(file_path: str) -> str|None:
+from typing import Union
+
+def read_text_file(file_path: str) -> Union[str, None]:
     """
     Read the contents of a text file.
 

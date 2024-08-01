@@ -54,7 +54,6 @@ To use the `Assistant` class from the `BorgTestGenerator` module in your code, y
     ```
 
 
-
 ### How to use unittestwriter in your code
 
 The following example shows how to use the `UnitTestWriter` class from the `BorgTestGenerator.agents.unittestwriter` module to generate unit test files for Python scripts.
