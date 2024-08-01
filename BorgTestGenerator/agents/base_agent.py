@@ -3,7 +3,9 @@ from ..assistant import Assistant
 from ..parsers.code_blocks_parsing import codeBlocksParser
 
 from os import path, rename
-    
+
+from typing import Optional
+
 class Agent(object):
     def __init__(self, 
                      assistant_id: Optional[str] = None, 
@@ -220,7 +222,7 @@ class Agent(object):
 
             """
             import shutil
-from typing import Optional
+            from typing import Optional
 
             def find_available_backup_filename(file_path: str) -> str:
                 """
