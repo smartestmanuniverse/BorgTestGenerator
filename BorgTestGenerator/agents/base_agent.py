@@ -3,8 +3,10 @@ from ..assistant import Assistant
 from ..parsers.code_blocks_parsing import codeBlocksParser
 
 from os import path, rename
+import shutil
 
 from typing import Optional
+from typing import Union
 
 class Agent(object):
     def __init__(self, 
@@ -38,7 +40,7 @@ class Agent(object):
         # 0. Définir l'assistant
         self.define_assistant(assistant_id)
 
-    def define_assistant(self, assistant_id: str|None) -> object:
+    def define_assistant(self, assistant_id: Optional[str] = None) -> object:
         """
         Defines the assistant for the base agent.
 
@@ -186,7 +188,7 @@ class Agent(object):
     def save_assistant_response_to_file(self, 
                                         file_path: str,
                                         remove_block_delimiters: bool = True,
-                                        language: str|bytes|list|None = None,
+                                        language: Optional[Union[str, bytes, list]] = None,
                                         force_overwrite: bool = False,
                                         backup_if_exists: bool = True) -> tuple[bool, str]:
         """
@@ -221,8 +223,6 @@ class Agent(object):
                 object: The current instance of the object.
 
             """
-            import shutil
-            from typing import Optional
 
             def find_available_backup_filename(file_path: str) -> str:
                 """
@@ -258,7 +258,7 @@ class Agent(object):
 
         
         def write_file(file_path: str, 
-                       data: str|bytes, 
+                       data: Union[str, bytes], 
                        force_overwrite: bool = False) -> None:
             """
             Write data to a file.

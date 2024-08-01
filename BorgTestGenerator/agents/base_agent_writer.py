@@ -2,9 +2,13 @@
 
 from .base_agent import Agent
 import os
+from typing import Optional
+from typing import Union
 
 class FilesListToUpload(list):
-    def __init__(self, files: list[str] = [], vector_store_name: str|None = None):
+    def __init__(self, 
+                 files: Optional[list[str]] = [],
+                 vector_store_name: Optional[str] = None):
         """
         Initializes a BaseAgentWriter object.
 
@@ -103,7 +107,7 @@ class FilesListToUpload(list):
 
 
 class BaseAgentWriter(Agent):
-    def __init__(self, assistant_id: str|None = None):
+    def __init__(self, assistant_id: Optional[str] = None):
         """
         Initializes a new instance of the BaseAgentWriter class.
 
@@ -128,8 +132,8 @@ class BaseAgentWriter(Agent):
 
     def run_generation(self, 
                        message_from_user: str,
-                       vector_store_name: str|None = None, 
-                       files_to_upload: list[str]|None = None) -> Agent:
+                       vector_store_name: Optional[str] = None, 
+                       files_to_upload: Optional[list[str]] = None) -> Agent:
         """
         Runs the generation process for the agent.
 
@@ -162,7 +166,7 @@ class BaseAgentWriter(Agent):
 
     def save_generation(self, 
                             output_filepath: str,
-                            language: str|bytes|list|None = ["python"],
+                            language: Optional[Union[str, bytes, list]] = ["python"],
                             force_overwrite: bool = False,
                             backup_if_exists: bool = True) -> Agent:
         """

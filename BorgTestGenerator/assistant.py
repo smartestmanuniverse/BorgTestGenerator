@@ -5,9 +5,10 @@ from openai import OpenAI
 from os import getenv, path, makedirs
 import json
 import tempfile
-
+from typing import Optional
+from typing import Union
 class Assistant(object):
-    def __init__(self, assistant_id: str|None):
+    def __init__(self, assistant_id: Optional[str] = None):
         """
         Initializes an instance of the Assistant class.
 
@@ -18,7 +19,7 @@ class Assistant(object):
         self.client = OpenAI(api_key=getenv("OPENAI_API_KEY"))
         self.assistant_id = assistant_id
 
-    def load_assistant(self, assistant_id: str = None) -> object:
+    def load_assistant(self, assistant_id: Optional[str] = None) -> object:
         """
         Loads the assistant with the specified assistant_id.
 
@@ -248,13 +249,13 @@ class Assistant(object):
         return self
 
     def upload_files(self, 
-                     files_to_upload: list|str,
+                     files_to_upload: Union[list[str], str],
                      vector_store_name: str) -> object:
         """
         Uploads files to OpenAI and adds them to a vector store.
 
         Args:
-            files_to_upload (list|str): A list of file paths or a single file path to upload.
+            files_to_upload (Union[list[str], str]): A list of file paths or a single file path to upload.
             vector_store_name (str): The name of the vector store to add the files to.
 
         Returns:
@@ -297,7 +298,7 @@ class Assistant(object):
         )
         return self
 
-    def get_assistant_messages(self) -> list|str|None:
+    def get_assistant_messages(self) -> Union[list, str, None]:
         """
         Retrieves the messages from the assistant.
 

@@ -1,6 +1,8 @@
 #coding: utf-8
+from typing import Optional
+from typing import Union
 
-def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> list:
+def codeBlocksParser(data: Union[str, bytes], language: Optional[Union[str, bytes, list]] = None) -> list:
     """
     Parses code blocks from the given data and filters them based on the specified language(s).
 
@@ -43,7 +45,7 @@ def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> l
         return data.decode()
 
     # function with regex to match code blocks into a string
-    def match_code_blocks(data: str|bytes) -> list:
+    def match_code_blocks(data: Union[str, bytes]) -> list:
         """
         Extracts code blocks from the given data.
 
@@ -56,7 +58,7 @@ def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> l
         return re.findall(r"```(.+?)```", data, re.DOTALL)
 
     # function to match single code blocks
-    def match_single_code_blocks(data: str|bytes) -> list:
+    def match_single_code_blocks(data: Union[str, bytes]) -> list:
         """
         Match and return a list of individual code blocks delimited by backticks (`) in the given data.
 
@@ -100,7 +102,7 @@ def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> l
             'code': '\n'.join(block)
         }
 
-    def parse_blocks(data: str|bytes) -> dict:
+    def parse_blocks(data: Union[str, bytes]) -> dict:
         """
         Parse the given data and extract single code blocks and code blocks.
 
@@ -123,7 +125,7 @@ def codeBlocksParser(data: str|bytes, language: str|bytes|list|None = None) -> l
             'code_blocks': splited_code_blocks
         }
 
-    def keep_only_blocks_by_language(parsed_blocks: dict, language: str|bytes|list|None) -> dict:
+    def keep_only_blocks_by_language(parsed_blocks: dict, language: Optional[Union[str, bytes, list]] = None) -> dict:
         """
         Filters the parsed code blocks based on the specified language(s).
 
