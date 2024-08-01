@@ -21,9 +21,14 @@ class TestAgent(unittest.TestCase):
             self.assertEqual(self.agent.assistant.get_assistant_id(), "12345")
 
     def test_upload_files(self):
+        from os import urandom
         vector_store_name = "vector_store"
-        files_to_upload = ["/path/to/file1.txt", "/path/to/file2.txt"]
-
+        files_to_upload = ["/tmp/file1.txt", "/tmp/file2.txt"]
+        for file_to_generate in files_to_upload:
+            with open(file_to_generate, "w") as f:
+                f.write(urandom(1024).hex())
+                f.close()
+        
         with patch.object(self.agent.assistant, "upload_files") as mock_upload_files:
             self.agent.upload_files(vector_store_name, files_to_upload)
             mock_upload_files.assert_called_once_with(files_to_upload, vector_store_name)

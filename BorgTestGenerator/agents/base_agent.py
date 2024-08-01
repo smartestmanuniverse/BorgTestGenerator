@@ -47,6 +47,7 @@ class Agent(object):
             object: The base agent object.
 
         """
+        # self.assistant_id = assistant_id    
         if assistant_id == None:
             self.assistant = Assistant(assistant_id)
             self.assistant.create_assistant(self.agent_name, 
