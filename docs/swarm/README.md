@@ -1324,10 +1324,181 @@ Ce workflow effectue les actions suivantes :
 
 ## Automatisation et Scripts
 
-
 ### Scripts Utilitaires
 
+Les scripts utilitaires jouent un rôle crucial dans l'automatisation des tâches répétitives et l'amélioration de l'efficacité du processus de documentation. Voici quelques exemples de scripts utilitaires couramment utilisés dans la gestion de la documentation.
 
+#### Exemples de Scripts Utilitaires
+
+1. **Script de Génération de Documentation**
+   - **Description :** Un script qui automatise le processus de génération de la documentation à partir des fichiers source.
+   - **Langage :** Python, Shell
+   - **Exemple :**
+     ```python
+     import os
+     import subprocess
+
+     def generate_docs():
+         # Chemin vers le répertoire de documentation
+         docs_dir = 'docs/'
+
+         # Commande pour générer la documentation avec Sphinx
+         command = f'sphinx-build -b html {docs_dir} {docs_dir}_build/html'
+
+         # Exécution de la commande
+         subprocess.run(command, shell=True)
+
+     if __name__ == '__main__':
+         generate_docs()
+     ```
+   - **Utilisation :** Ce script peut être exécuté manuellement ou intégré dans un pipeline CI/CD pour générer automatiquement la documentation à chaque modification du code source.
+
+2. **Script de Vérification de Liens**
+   - **Description :** Un script pour vérifier que tous les liens dans la documentation sont valides et ne renvoient pas d'erreurs 404.
+   - **Langage :** Python
+   - **Exemple :**
+     ```python
+     import requests
+     from bs4 import BeautifulSoup
+
+     def check_links(file_path):
+         with open(file_path, 'r') as file:
+             content = file.read()
+
+         soup = BeautifulSoup(content, 'html.parser')
+         links = soup.find_all('a')
+
+         for link in links:
+             url = link.get('href')
+             try:
+                 response = requests.head(url, allow_redirects=True)
+                 if response.status_code != 200:
+                     print(f'Broken link: {url} (Status code: {response.status_code})')
+             except requests.RequestException as e:
+                 print(f'Error checking link: {url} ({e})')
+
+     if __name__ == '__main__':
+         # Chemin vers le fichier HTML généré
+         html_file = 'docs/_build/html/index.html'
+         check_links(html_file)
+     ```
+   - **Utilisation :** Ce script peut être exécuté après la génération de la documentation pour vérifier les liens et garantir qu'ils sont valides.
+
+3. **Script de Linting pour Markdown**
+   - **Description :** Un script pour vérifier la conformité des fichiers Markdown avec les normes de style spécifiées.
+   - **Langage :** Shell
+   - **Exemple :**
+     ```sh
+     #!/bin/bash
+
+     # Installer markdownlint-cli si non installé
+     if ! command -v markdownlint &> /dev/null
+     then
+         echo "markdownlint could not be found, installing..."
+         npm install -g markdownlint-cli
+     fi
+
+     # Linter tous les fichiers Markdown
+     markdownlint "**/*.md"
+     ```
+   - **Utilisation :** Ce script peut être intégré dans un pipeline CI/CD pour vérifier automatiquement les fichiers Markdown lors des pull requests.
+
+4. **Script de Mise à Jour de la Table des Matières**
+   - **Description :** Un script pour mettre à jour automatiquement la table des matières dans les fichiers Markdown.
+   - **Langage :** Python
+   - **Exemple :**
+     ```python
+     import re
+
+     def update_toc(file_path):
+         with open(file_path, 'r') as file:
+             content = file.read()
+
+         # Regex pour trouver les titres
+         headers = re.findall(r'^(#{1,6}) (.*)', content, re.MULTILINE)
+
+         toc = []
+         for header in headers:
+             level = len(header[0])
+             title = header[1]
+             link = title.lower().replace(' ', '-')
+             toc.append(f'{"  " * (level - 1)}- [{title}](#{link})')
+
+         toc_content = '\n'.join(toc)
+         new_content = re.sub(r'<!-- TOC -->(.|\n)*<!-- /TOC -->', f'<!-- TOC -->\n{toc_content}\n<!-- /TOC -->', content, flags=re.MULTILINE)
+
+         with open(file_path, 'w') as file:
+             file.write(new_content)
+
+     if __name__ == '__main__':
+         # Chemin vers le fichier Markdown à mettre à jour
+         markdown_file = 'README.md'
+         update_toc(markdown_file)
+     ```
+   - **Utilisation :** Ce script peut être exécuté pour mettre à jour automatiquement la table des matières avant chaque commit.
+
+#### Intégration des Scripts Utilitaires dans les Pipelines CI/CD
+
+1. **Configuration des Scripts dans GitHub Actions**
+   - **Exemple :**
+     ```yaml
+     name: CI
+
+     on:
+       push:
+         branches:
+           - master
+       pull_request:
+         branches:
+           - master
+
+     jobs:
+       build:
+         runs-on: ubuntu-latest
+
+         steps:
+           - name: Checkout repository
+             uses: actions/checkout@v2
+
+           - name: Set up Python
+             uses: actions/setup-python@v2
+             with:
+               python-version: '3.x'
+
+           - name: Install dependencies
+             run: |
+               python -m pip install --upgrade pip
+               pip install sphinx requests beautifulsoup4 markdownlint-cli
+
+           - name: Lint Markdown
+             run: markdownlint "**/*.md"
+
+           - name: Build documentation
+             run: sphinx-build -b html docs/ docs/_build/html
+
+           - name: Check links
+             run: python check_links.py
+     ```
+
+2. **Automatisation des Scripts dans Travis CI**
+   - **Exemple :**
+     ```yaml
+     language: python
+
+     python:
+       - "3.8"
+
+     install:
+       - pip install -r requirements.txt
+       - npm install -g markdownlint-cli
+
+     script:
+       - markdownlint "**/*.md"
+       - sphinx-build -b html docs/ docs/_build/html
+       - python check_links.py
+     ```
+
+Ces scripts utilitaires et leur intégration dans des pipelines CI/CD permettent d'automatiser les tâches répétitives, d'améliorer l'efficacité et de garantir la qualité de la documentation.
 
 ### Automatisation des Vérifications
 
