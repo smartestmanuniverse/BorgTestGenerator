@@ -13,8 +13,7 @@ class Assistant(object):
         Initializes an instance of the Assistant class.
 
         Parameters:
-        - assistant_id (str|None): The ID of the assistant or None if not specified.
-
+            assistant_id (str, optional): The ID of the assistant to load. Defaults to None.
         """
         self.client = OpenAI(api_key=getenv("OPENAI_API_KEY"))
         self.assistant_id = assistant_id
@@ -27,7 +26,7 @@ class Assistant(object):
             assistant_id (str, optional): The ID of the assistant to load. Defaults to None.
 
         Returns:
-            object: The loaded assistant object.
+            object: The current instance of the Assistant class.
 
         """
         if assistant_id:
@@ -50,9 +49,9 @@ class Assistant(object):
             model (str, optional): The model to use for the assistant. Defaults to "gpt-4o".
             tool_code_interpreter (bool, optional): Whether to include the code interpreter tool. Defaults to False.
             tool_file_search (bool, optional): Whether to include the file search tool. Defaults to True.
-
+        
         Returns:
-            object: The created assistant object.
+            object: The current instance of the Assistant class.
 
         """
         tools_ = []
@@ -255,14 +254,11 @@ class Assistant(object):
         Uploads files to OpenAI and adds them to a vector store.
 
         Args:
-            files_to_upload (Union[list[str], str]): A list of file paths or a single file path to upload.
-            vector_store_name (str): The name of the vector store to add the files to.
-
+            files_to_upload (list|str): The list of files to upload or a single file path.
+            vector_store_name (str): The name of the vector store to create.
+        
         Returns:
             object: The current instance of the class.
-
-        Raises:
-            None
 
         """
         if type(files_to_upload) == str:
@@ -303,8 +299,8 @@ class Assistant(object):
         Retrieves the messages from the assistant.
 
         Returns:
-            list|str|None: The messages from the assistant if the run status is 'completed',
-                            otherwise the run status itself.
+            A type-annotated list of messages if the run is completed, the status of the run if it is not completed, or None if there are no messages.
+            (list | str | None)
         """
         if self.run.status == 'completed': 
             self.messages = self.client.beta.threads.messages.list(
@@ -315,14 +311,32 @@ class Assistant(object):
             return self.run.status
 
 
+"""
+from BorgTestGenerator.assistant import Assistant
+assistant = Assistant()
+assistant.create_assistant(
+    name="Test Assistant",
+    instructions="This is a test assistant.",
+    model="gpt-4o",
+    tool_code_interpreter=True,
+    tool_file_search=True
+)
+"""
+
 class AssistantBackupManager(object):
-    def __init__(self, backup_file="assistants_list.json", init_refresh=True):
+    def __init__(self, 
+                 backup_file: Optional[str] = "assistants_list.json", 
+                 init_refresh: Optional[bool] = True):
         """
         Initializes an instance of the AssistantManager class.
 
         Args:
-            backup_file (str): The name of the backup file to store the assistants list. Defaults to "assistants_list.json".
-            init_refresh (bool): Whether to refresh the assistants list during initialization. Defaults to True.
+            backup_file (str, optional): The name of the file to store the backup. Defaults to "assistants_list.json".
+            init_refresh (bool, optional): Whether to refresh the list of assistants on initialization. Defaults to True.
+        
+        Returns:
+            object: The current instance of the AssistantManager class.
+            
         """
         self.Assistant_Client = Assistant(assistant_id=None)
         self.assistants_list = []
@@ -374,6 +388,19 @@ class AssistantBackupManager(object):
 
         """
         def assistant_to_json(assistant_object: object) -> str:
+            """
+            Converts the assistant object to JSON.
+
+            Args:
+                assistant_object (object): The assistant object to convert.
+
+            Returns:
+                str: The JSON representation of the assistant object.
+
+            Raises:
+                Exception: If there is an error while converting the assistant object to JSON.
+
+            """
             # Function to convert the assistant object to JSON (if you need, you can import libraries to do this)
             try: 
                 json_assistant_data_ = {
@@ -431,15 +458,15 @@ class AssistantBackupManager(object):
         return self
         
     def backup(self, 
-               backup_root_folder: str = "/tmp/assistants_backup") -> object:
+               backup_root_folder: Optional[str] = "/tmp/assistants_backup") -> object:
         """
         Backs up the current state of the assistants by saving each individual assistant to a backup folder.
 
         Args:
-            backup_root_folder (str, optional): The root folder where the backup will be stored. Defaults to "/tmp/assistants_backup".
+            backup_root_folder (str, optional): The root folder where the backup will be saved. Defaults to "/tmp/assistants_backup".
 
         Returns:
-            object: The current instance of the Assistant class.
+            object: The current instance of the class.
 
         """
         def filename_formatify(name: str) -> str:
@@ -512,7 +539,7 @@ class AssistantBackupManager(object):
 
 
 """
-from assistant import AssistantBackupManager
-bck = AssistantBackupManager()
-bck.backup()
+from BorgTestGenerator.assistant import AssistantBackupManager
+assistant_backup_manager = AssistantBackupManager()
+assistant_backup_manager.backup()
 """
