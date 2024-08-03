@@ -562,10 +562,74 @@ L'application de gestion de projets bénéficie d'une documentation constamment 
 
 ## Outils et Technologies Utilisés
 
-
 ### Outils de Documentation
 
+Pour assurer une documentation efficace et bien organisée, divers outils de documentation sont utilisés. Ces outils facilitent la rédaction, la vérification, la gestion et la publication de la documentation technique.
 
+#### Outils de Rédaction
+
+1. **Markdown**
+   - **Description :** Un langage de balisage léger utilisé pour formater les documents en texte brut avec une syntaxe simple et facile à lire.
+   - **Utilisation :** Utilisé pour écrire la documentation de manière structurée. Les fichiers Markdown (.md) sont faciles à convertir en formats HTML ou PDF.
+   - **Avantages :** Simplicité, lisibilité, compatibilité avec de nombreux outils de conversion et de publication.
+
+2. **Sphinx**
+   - **Description :** Un générateur de documentation Python qui transforme des fichiers reStructuredText en documentation HTML, LaTeX, ePub, etc.
+   - **Utilisation :** Utilisé principalement pour la documentation de projets Python, notamment les bibliothèques et les API.
+   - **Avantages :** Puissant, extensible, supporte les liens croisés et les index, bien intégré avec le langage Python.
+
+3. **Jupyter Notebooks**
+   - **Description :** Un environnement interactif permettant de créer et partager des documents contenant du code, des visualisations et du texte narratif.
+   - **Utilisation :** Utilisé pour documenter les exemples de code et les analyses de données, ainsi que pour les tutoriels interactifs.
+   - **Avantages :** Interactif, combine code et documentation, supporte plusieurs langages de programmation.
+
+#### Outils de Vérification et de Test
+
+1. **Read the Docs**
+   - **Description :** Un service d'hébergement de documentation qui permet de créer et de publier automatiquement de la documentation en ligne.
+   - **Utilisation :** Utilisé pour héberger et publier la documentation générée par Sphinx et d'autres outils.
+   - **Avantages :** Intégration avec GitHub, génération automatique de documentation, support pour plusieurs versions de la documentation.
+
+2. **MkDocs**
+   - **Description :** Un générateur de documentation statique qui transforme des fichiers Markdown en sites web de documentation.
+   - **Utilisation :** Utilisé pour créer des sites web de documentation statique avec une interface utilisateur agréable et responsive.
+   - **Avantages :** Facile à configurer, rapide, supporte les thèmes personnalisables.
+
+3. **Vale**
+   - **Description :** Un linter de prose qui vérifie la conformité de la documentation avec les guides de style définis.
+   - **Utilisation :** Utilisé pour assurer la cohérence et la qualité de la documentation en détectant les erreurs grammaticales, les incohérences de style, etc.
+   - **Avantages :** Configurable, supporte plusieurs guides de style, facile à intégrer dans les pipelines CI/CD.
+
+#### Outils de Gestion de Versions
+
+1. **GitHub**
+   - **Description :** Une plateforme de développement collaboratif qui utilise Git pour le contrôle de version.
+   - **Utilisation :** Utilisé pour gérer le code source, les modifications de la documentation, et la collaboration entre les contributeurs.
+   - **Avantages :** Collaboration en temps réel, gestion des versions, intégration avec de nombreux outils de CI/CD.
+
+2. **Git**
+   - **Description :** Un système de contrôle de version décentralisé utilisé pour suivre les modifications apportées aux fichiers et coordonner le travail entre plusieurs personnes.
+   - **Utilisation :** Utilisé pour gérer les versions de la documentation et synchroniser les changements entre les collaborateurs.
+   - **Avantages :** Suivi des modifications, branches et fusions, support pour les workflows collaboratifs.
+
+#### Outils de Publication
+
+1. **GitHub Pages**
+   - **Description :** Un service d'hébergement de pages web statiques directement depuis un dépôt GitHub.
+   - **Utilisation :** Utilisé pour publier et héberger la documentation statique générée à partir de Markdown ou d'autres formats.
+   - **Avantages :** Intégration facile avec GitHub, support pour les pages statiques, gratuit pour les projets publics.
+
+2. **Netlify**
+   - **Description :** Une plateforme d'hébergement de sites web qui offre des fonctionnalités de déploiement continu.
+   - **Utilisation :** Utilisé pour héberger des sites web de documentation avec des déploiements automatisés à partir des dépôts GitHub.
+   - **Avantages :** Déploiement continu, gestion des versions, support pour les sites web statiques et dynamiques.
+
+3. **GitLab Pages**
+   - **Description :** Un service similaire à GitHub Pages, mais intégré à GitLab.
+   - **Utilisation :** Utilisé pour publier et héberger la documentation générée à partir des dépôts GitLab.
+   - **Avantages :** Intégration avec GitLab CI/CD, support pour les pages statiques.
+
+Ces outils de documentation jouent un rôle crucial dans la création, la gestion et la publication de la documentation technique, assurant ainsi qu'elle est toujours à jour, précise et accessible aux utilisateurs.
 
 ### Intégration Continue
 
