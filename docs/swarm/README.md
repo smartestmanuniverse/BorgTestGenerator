@@ -739,7 +739,6 @@ Ce pipeline effectue les actions suivantes :
 
 ## Meilleures Pratiques
 
-
 ### Conseils pour une Documentation Efficace
 
 
