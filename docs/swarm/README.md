@@ -812,7 +812,7 @@ La documentation efficace est essentielle pour assurer la compréhension, l'util
 3. **Recueillir des Retours et Améliorer**
    - **Description :** Recueillir des retours d'utilisateurs et de contributeurs pour identifier les points à améliorer.
    - **Avantages :** Permet une amélioration continue de la documentation basée sur des retours concrets.
-   
+
 ### Normes et Standards
 
 L'adoption de normes et de standards spécifiques est essentielle pour maintenir une documentation cohérente, professionnelle et facile à utiliser. Voici quelques normes et standards recommandés pour la documentation technique.
@@ -906,10 +906,77 @@ L'adoption de normes et de standards spécifiques est essentielle pour maintenir
 
 ## Formation et Développement des Agents
 
-
 ### Formation Initiale
 
+Pour assurer que chaque agent de documentation est efficace dans son rôle, une formation initiale approfondie est essentielle. Cette formation couvre les compétences nécessaires, les outils utilisés et les processus à suivre.
 
+#### Objectifs de la Formation
+
+1. **Comprendre les Rôles et Responsabilités**
+   - **Description :** Chaque agent doit comprendre son rôle spécifique et ses responsabilités dans le processus de documentation.
+   - **Objectif :** Assurer que chaque agent sait ce qui est attendu de lui et comment il contribue à l'efficacité globale de l'équipe.
+
+2. **Maîtriser les Outils de Documentation**
+   - **Description :** Les agents doivent être formés à l'utilisation des outils de documentation pertinents (par exemple, Sphinx, Markdown, GitHub).
+   - **Objectif :** Garantir que les agents peuvent utiliser efficacement les outils pour créer, mettre à jour et gérer la documentation.
+
+3. **Appliquer les Normes et Standards**
+   - **Description :** Les agents doivent être familiarisés avec les normes et standards de rédaction, de formatage et de structuration de la documentation.
+   - **Objectif :** Assurer une documentation cohérente et professionnelle.
+
+#### Modules de Formation
+
+1. **Introduction aux Rôles et Responsabilités**
+   - **Contenu :**
+     - Présentation des différents rôles d'agent (Chef de Documentation, Rédacteur Technique, Analyste de Code, Vérificateur de Documentation, Agent de Mise en Page, Agent de Traduction).
+     - Description détaillée des tâches associées à chaque rôle.
+   - **Objectif :** Clarifier les attentes et les interactions entre les rôles.
+
+2. **Formation aux Outils de Documentation**
+   - **Contenu :**
+     - **Markdown :** Syntaxe de base, formatage avancé, intégration avec d'autres outils.
+     - **Sphinx :** Configuration de base, génération de documentation, extensions utiles.
+     - **Git et GitHub :** Commandes de base, workflows Git, gestion des branches, collaboration via pull requests.
+     - **Vale :** Installation, configuration, et utilisation pour le linting de prose.
+   - **Objectif :** Assurer que chaque agent est capable d'utiliser les outils de manière autonome et efficace.
+
+3. **Application des Normes et Standards**
+   - **Contenu :**
+     - **Guide de Style :** Présentation du guide de style adopté par l'équipe (par exemple, Google Developer Documentation Style Guide).
+     - **Terminologie Consistante :** Utilisation d'un glossaire de termes spécifiques.
+     - **Structuration et Mise en Page :** Organisation logique des documents, utilisation cohérente des titres, sous-titres, listes, etc.
+   - **Objectif :** Garantir une documentation uniforme et de haute qualité.
+
+4. **Rédaction Technique et Communication Claire**
+   - **Contenu :**
+     - **Techniques de Rédaction :** Rédaction claire et concise, évitement du jargon, utilisation de la voix active.
+     - **Exemples Concrets :** Inclusion d'exemples de code, captures d'écran, diagrammes pour illustrer les concepts.
+   - **Objectif :** Améliorer la clarté et l'accessibilité de la documentation.
+
+5. **Procédures de Vérification et de Validation**
+   - **Contenu :**
+     - **Tests de Documentation :** Méthodes pour tester l'exactitude et la clarté des guides d'utilisation et des manuels.
+     - **Utilisation des Linters :** Configuration et utilisation de Vale pour vérifier la cohérence et la qualité de la prose.
+     - **Revue par les Pairs :** Processus de revue et d'approbation des documents par les autres membres de l'équipe.
+   - **Objectif :** Assurer que la documentation est exacte, à jour et sans erreur.
+
+#### Méthodes de Formation
+
+1. **Cours en Ligne et Tutoriels Vidéo**
+   - **Description :** Utilisation de plateformes de formation en ligne pour fournir des cours et des tutoriels vidéo.
+   - **Exemples :** Udemy, Coursera, LinkedIn Learning.
+
+2. **Ateliers et Séminaires**
+   - **Description :** Organisation d'ateliers et de séminaires pour une formation pratique et interactive.
+   - **Exemples :** Ateliers de rédaction technique, sessions de pratique de Git et GitHub, séminaires sur les normes de documentation.
+
+3. **Mentorat et Accompagnement**
+   - **Description :** Mise en place d'un système de mentorat où des agents expérimentés accompagnent les nouveaux agents.
+   - **Objectif :** Faciliter l'intégration et offrir un soutien continu.
+
+4. **Documentation et Ressources**
+   - **Description :** Fournir une documentation complète et des ressources de référence pour les agents.
+   - **Exemples :** Manuels de formation, guides de référence rapide, FAQ internes.
 
 ### Développement Continu
 
