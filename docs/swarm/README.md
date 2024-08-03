@@ -1,20 +1,21 @@
 # Swarm Intelligence for GitHub Repository Documentation
 > **Author:** [Richard Daniel Sanchez](https://github.com/0x07cb)
 
-## Introduction
-
 _J'ai récemment commencé à travailler sur un projet open source en Python et j'ai réalisé que la documentation de mon dépôt GitHub était incomplète et désorganisée. Pour améliorer la qualité et la cohérence de la documentation, j'ai décidé d'utiliser l'intelligence de l'essaim pour coordonner un groupe d'agents spécialisés dans la documentation technique._
 
 _Je voudrais mettre en place une structure d'agents pour gérer la documentation de mon projet Python sur GitHub. Ces agents auront des rôles spécifiques et travailleront ensemble pour créer, maintenir et améliorer la documentation technique du dépôt._
 
-Donc bien que cela soit vraiment pharaonique, je vais essayer de vous donner un exemple de structure d'agents pour la documentation d'un dépôt GitHub.
+_Donc bien que cela soit vraiment pharaonique, je vais essayer de vous donner un exemple de structure d'agents pour la documentation d'un dépôt GitHub._
+
+## Introduction
+
+Pour améliorer la qualité et la cohérence de la documentation d'un projet open source en Python, j'ai décidé d'utiliser l'intelligence collective pour coordonner un groupe d'agents spécialisés dans la documentation technique. Ces agents auront des rôles spécifiques et travailleront ensemble pour créer, maintenir et améliorer la documentation technique du dépôt.
+
 
 ### Objectif
 
-Pour améliorer mon projet avec des agents spécialisés pour la documentation d'un dépôt GitHub, il faut définir une structure d'agents avec des rôles et des tâches clairs. 
-
+L'objectif est de définir une structure d'agents avec des rôles et des tâches clairs pour gérer la documentation d'un projet Python sur GitHub.
 Dans ce document nous partons sur une base de depart organiser ces agents.
-La voici :
 
 ### Structure des Agents
 
@@ -62,11 +63,11 @@ La voici :
 
 ### Caractéristiques des Agents
 
-- **Autonomie :** Chaque agent doit être capable de travailler de manière indépendante tout en suivant les directives générales.
-- **Communication :** Les agents doivent communiquer efficacement entre eux pour coordonner leurs tâches.
-- **Spécialisation :** Chaque agent se concentre sur une tâche spécifique pour maximiser l'efficacité et la qualité du travail.
-- **Adaptabilité :** Les agents doivent être capables de s'adapter aux changements dans le projet et de mettre à jour la documentation en conséquence.
-- **Collaboration :** Capacité à travailler en équipe pour intégrer les différentes parties de la documentation de manière cohérente.
+- **Autonomie :** Capacité à travailler de manière indépendante en suivant les directives générales.
+- **Communication :** Communication efficace entre les agents pour coordonner leurs tâches.
+- **Spécialisation :** Concentration sur une tâche spécifique pour maximiser l'efficacité et la qualité.
+- **Adaptabilité :** Capacité à s'adapter aux changements dans le projet et à mettre à jour la documentation en conséquence.
+- **Collaboration :** Travail en équipe pour intégrer les différentes parties de la documentation de manière cohérente.
 
 ### Exemple de Workflow
 
@@ -91,7 +92,7 @@ La voici :
 7. **Révision Finale :**
    - L'Agent Chef de Documentation révise la documentation complète et approuve les modifications finales.
 
-Cette structure permettra à nos agents de travailler en essaim de manière efficace et coordonnée, améliorant ainsi la qualité et la maintenance de la documentation de vos projets Python dans les dépôts GitHub.
+Cette structure permet aux agents de travailler de manière efficace et coordonnée, améliorant ainsi la qualité et la maintenance de la documentation de votre projet Python sur GitHub.
 
 ## A propos des Agents de Documentation
 
