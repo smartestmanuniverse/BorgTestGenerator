@@ -280,3 +280,153 @@ _Le Traduction traduit la documentation dans différentes langues, en respectant
 _Il collabore avec les rédacteurs pour garantir l'exactitude des traductions et maintenir les versions traduites à jour avec les modifications apportées à la documentation originale._
 _Il assure que les informations sont accessibles à un public plus large et facilite la communication entre les différentes cultures et langues._
 
+### Exemple de Macro-Interractions
+
+#### Comment les agents interagissent-ils pour créer et maintenir la documentation ?
+> Qui fait quoi et comment ? Qui communique avec qui ? Qui dépend de qui ? Qui vérifie le travail de qui ?
+
+(bloc markdown ;  illustration ; diagramme ; ASCII art ; ANSI)
+
+1. **Planification et Distribution des Tâches** :
+   - L'Agent Chef de Documentation planifie les tâches et les distribue aux autres agents.
+   - Il assure que chaque agent a les informations et les ressources nécessaires pour accomplir sa tâche.
+2. **Création de la Documentation** :
+   - L'Agent Rédacteur Technique rédige les sections initiales de la documentation en collaboration avec l'Analyste de Code.
+   - Il fournit des informations précises et à jour à l'Analyste de Code pour l'analyse du code source.
+3. **Analyse et Annotation du Code** :
+    - L'Agent Analyste de Code analyse le code source et fournit des annotations détaillées pour les parties complexes.
+    - Il travaille en étroite collaboration avec le Rédacteur Technique pour fournir des informations précises et à jour.
+4. **Vérification et Test de la Documentation** :
+    - L'Agent Vérificateur de Documentation teste les instructions et vérifie l'exactitude des informations.
+    - Il signale les erreurs et propose des corrections pour améliorer la qualité de la documentation.
+5. **Mise en Page et Présentation** :
+    - L'Agent de Mise en Page structure la documentation et applique des styles uniformes pour une présentation cohérente.
+    - Il assure que les documents sont attrayants, professionnels et faciles à lire pour une meilleure expérience utilisateur.
+6. **Traduction et Localisation** :
+    - L'Agent de Traduction traduit la documentation dans différentes langues pour les marchés internationaux.
+    - Il collabore avec les rédacteurs pour garantir l'exactitude des traductions et maintenir les versions traduites à jour.
+
+***Ces interactions permettent aux agents de travailler ensemble de manière efficace et coordonnée pour créer, maintenir et améliorer la documentation technique du projet.***
+
+(ASCII art ;  illustration ; diagramme ; bloc markdown)
+(can use special characters to draw the diagram. e.g.: ['=', '-', '|', '/', '\', '+', 'O', 'o', '0', 'x', '*', '.', '_', ' '])
+
+**Chaines d'interractions (Depuis l'agent 'Chef de Documentation') :**
+*Representations des interrations simplifiees*
+```
+Chef de Documentation -> Rédacteur Technique -> Analyste de Code -> Vérificateur de Documentation -> Mise en Page -> Traduction
+```
+
+**Chaines d'interractions (Depuis l'agent 'Rédacteur Technique') :**
+*Representations des interrations simplifiees*
+```
+Rédacteur Technique <-> Analyste de Code
+```
+
+**Chaines d'interractions (Depuis l'agent 'Analyste de Code') :**
+*Representations des interrations simplifiees*
+```
+Analyste de Code <-> Vérificateur de Documentation
+```
+
+**Chaines d'interractions (Depuis l'agent 'Vérificateur de Documentation') :**
+*Representations des interrations simplifiees*
+```
+Vérificateur de Documentation <-> Mise en Page
+```
+
+**Chaines d'interractions (Depuis l'agent 'Mise en Page') :**
+*Representations des interrations simplifiees*
+```
+Mise en Page <-> Traduction
+```
+
+**Chaines d'interractions (Depuis l'agent 'Traduction') :**
+*Representations des interrations simplifiees*
+```
+Traduction -> Chef de Documentation
+```
+
+## Micro-Interractions entre les Agents
+
+### Exemple de Micro-Interractions
+
+#### Comment les agents interagissent-ils pour accomplir une tâche spécifique ?
+> Qui fait quoi et comment ? Qui communique avec qui ? Qui dépend de qui ? Qui vérifie le travail de qui ?
+
+(bloc markdown ;  illustration ; diagramme ; ASCII art ; ANSI)
+
+1. **Création d'un Guide d'Installation** :
+   - L'Agent Chef de Documentation planifie la création du guide et le distribue à l'Agent Rédacteur Technique.
+   - L'Agent Rédacteur Technique rédige le guide en collaboration avec l'Analyste de Code pour obtenir des informations sur l'installation.
+   - L'Agent Analyste de Code fournit des détails techniques sur l'installation à inclure dans le guide.
+   - L'Agent Vérificateur de Documentation teste les instructions d'installation et signale les erreurs ou les incohérences.
+   - L'Agent de Mise en Page structure le guide et applique des styles pour une présentation professionnelle.
+   - L'Agent de Traduction traduit le guide dans différentes langues pour les utilisateurs internationaux.
+2. **Documentation d'une API** :
+   - L'Agent Chef de Documentation planifie la documentation de l'API et la distribue à l'Agent Rédacteur Technique.
+   - L'Agent Rédacteur Technique rédige la documentation en collaboration avec l'Analyste de Code pour obtenir des informations sur l'API.
+   - L'Agent Analyste de Code génère des commentaires de code détaillés pour les fonctions de l'API.
+   - L'Agent Vérificateur de Documentation vérifie l'exactitude des informations techniques et signale les erreurs.
+   - L'Agent de Mise en Page structure la documentation de l'API pour une présentation claire et professionnelle.
+   - L'Agent de Traduction traduit la documentation de l'API dans différentes langues pour les utilisateurs internationaux.
+3. **Révision d'un Manuel d'Utilisation** :
+    - L'Agent Chef de Documentation planifie la révision du manuel et le distribue à l'Agent Rédacteur Technique.
+    - L'Agent Rédacteur Technique révise le manuel en collaboration avec l'Analyste de Code pour obtenir des informations sur les fonctionnalités.
+    - L'Agent Analyste de Code identifie les parties du code nécessitant des explications supplémentaires pour le manuel.
+    - L'Agent Vérificateur de Documentation teste les instructions du manuel et signale les erreurs ou les incohérences.
+    - L'Agent de Mise en Page structure le manuel pour une présentation cohérente et agréable.
+    - L'Agent de Traduction traduit le manuel dans différentes langues pour les utilisateurs internationaux.
+4. **Correction d'un Rapport Technique** :
+    - L'Agent Chef de Documentation planifie la correction du rapport et le distribue à l'Agent Rédacteur Technique.
+    - L'Agent Rédacteur Technique corrige le rapport en collaboration avec l'Analyste de Code pour obtenir des informations sur les analyses.
+    - L'Agent Analyste de Code révise les parties techniques du rapport pour assurer la précision des informations.
+    - L'Agent Vérificateur de Documentation vérifie la clarté et la conformité du rapport et signale les erreurs.
+    - L'Agent de Mise en Page structure le rapport pour une présentation professionnelle et facile à lire.
+    - L'Agent de Traduction traduit le rapport dans différentes langues pour les utilisateurs internationaux.
+5. **Traduction d'un Guide d'Utilisation** :
+    - L'Agent Chef de Documentation planifie la traduction du guide et le distribue à l'Agent de Traduction.
+    - L'Agent de Traduction traduit le guide en collaboration avec le Rédacteur Technique pour garantir l'exactitude des informations.
+    - L'Agent de Mise en Page structure la traduction pour une présentation cohérente et professionnelle.
+    - L'Agent Vérificateur de Documentation vérifie la qualité de la traduction et signale les erreurs ou les incohérences.
+    - L'Agent Analyste de Code fournit des informations techniques supplémentaires pour la traduction si nécessaire.
+6. **Mise en Page d'un Manuel Technique** :
+    - L'Agent Chef de Documentation planifie la mise en page du manuel et le distribue à l'Agent de Mise en Page.
+    - L'Agent de Mise en Page structure le manuel en collaboration avec le Rédacteur Technique pour garantir une présentation professionnelle.
+    - L'Agent Vérificateur de Documentation vérifie la lisibilité et l'accessibilité du manuel et signale les erreurs ou les incohérences.
+    - L'Agent Analyste de Code fournit des informations techniques supplémentaires pour la mise en page si nécessaire.
+
+***Ces interactions permettent aux agents de travailler ensemble de manière efficace et coordonnée pour accomplir des tâches spécifiques liées à la documentation technique du projet.***
+
+## Comment s'articulent les micro-interractions entre les agents ?
+
+Le but est de definir avec plus de precision les interactions entre les agents pour accomplir des tâches spécifiques liées à la documentation technique du projet.
+Donc viens la question de savoir comment s'articulent ces micro-interractions entre les agents.
+
+On doit penser que chaque agent a des tâches spécifiques qui contribuent à la création, à la maintenance et à l'amélioration de la documentation technique du projet.
+Et que chaques taches pour chaque roles des agents doit être bien definie pour que les agents puissent travailler ensemble de manière efficace et coordonnée.
+
+A present parlons de comment tout cela pourrait s'articuler, disons que l'on va reflechir a l'ordre et la structure d'une hierarchisation des tâches pour chaque agent. Il faudra prendre en compte le fait que chaques agents devra si besoin communiquer avec d'autres agents pour obtenir des informations ou des validations ; que chaque agent devra verifier le travail d'autres agents pour garantir la qualité et la cohérence de la documentation. ; que chaque agent devra iterer de son coter un certain nombre de fois definie et limitee avant de passer la main a un autre agent. ; que chaque agent devra respecter un certain nombre de regles et de normes pour garantir la qualité et la cohérence de la documentation.
+
+### Ordre, strucure, communication, verification, iteration, regles et normes :
+
+1. **Ordre des Tâches** :
+   - Chaque agent suit un ordre spécifique pour accomplir ses tâches en fonction de la planification du Chef de Documentation.
+   - Les tâches sont distribuées de manière cohérente pour garantir une progression logique dans la création et la maintenance de la documentation.
+2. **Structure des Tâches** :
+    - Chaque agent suit une structure définie pour la création, la révision et l'amélioration de la documentation.
+    - Les tâches sont organisées de manière à faciliter la collaboration entre les agents et à garantir la cohérence de la documentation.
+3. **Communication entre les Agents** :
+    - Les agents communiquent régulièrement pour échanger des informations, des mises à jour et des validations.
+    - La communication est essentielle pour coordonner les activités de documentation et garantir la qualité du travail.
+4. **Vérification du Travail** :
+    - Chaque agent vérifie le travail des autres agents pour assurer la précision, la clarté et la conformité de la documentation.
+    - La vérification est une étape critique pour garantir la qualité et la cohérence de la documentation finale.
+5. **Itération des Tâches** :
+    - Chaque agent itère sur ses tâches pour améliorer la qualité et la précision de la documentation.
+    - Les itérations permettent d'ajuster, de corriger et d'améliorer la documentation en fonction des retours et des validations.
+6. **Respect des Règles et Normes** :
+    - Chaque agent respecte les règles et les normes définies pour la documentation technique du projet.
+    - Le respect des normes garantit la cohérence, la lisibilité et l'accessibilité de la documentation pour les utilisateurs.
+
+***Ces éléments permettent de structurer et d'organiser les interactions entre les agents pour garantir une collaboration efficace et coordonnée dans la création, la maintenance et l'amélioration de la documentation technique du projet.***
