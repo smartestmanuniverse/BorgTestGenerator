@@ -213,9 +213,7 @@ Dans les sections suivantes, nous explorerons plus en détail les rôles et les 
 
 ## Macro-Interractions entre les Agents
 
-### Plan des chaines d'interraactions
-
-(bloc markdown ;  illustration ; diagramme ; ASCII art ; ANSI)
+### Plan des chaines d'interactions
 
 **Agent Chef de Documentation** :
 ```
@@ -286,8 +284,6 @@ _Il assure que les informations sont accessibles à un public plus large et faci
 #### Comment les agents interagissent-ils pour créer et maintenir la documentation ?
 > Qui fait quoi et comment ? Qui communique avec qui ? Qui dépend de qui ? Qui vérifie le travail de qui ?
 
-(bloc markdown ;  illustration ; diagramme ; ASCII art ; ANSI)
-
 1. **Planification et Distribution des Tâches** :
    - L'Agent Chef de Documentation planifie les tâches et les distribue aux autres agents.
    - Il assure que chaque agent a les informations et les ressources nécessaires pour accomplir sa tâche.
@@ -309,8 +305,7 @@ _Il assure que les informations sont accessibles à un public plus large et faci
 
 ***Ces interactions permettent aux agents de travailler ensemble de manière efficace et coordonnée pour créer, maintenir et améliorer la documentation technique du projet.***
 
-(ASCII art ;  illustration ; diagramme ; bloc markdown)
-(can use special characters to draw the diagram. e.g.: ['=', '-', '|', '/', '\', '+', 'O', 'o', '0', 'x', '*', '.', '_', ' '])
+--------------------------------------------
 
 **Chaines d'interractions (Depuis l'agent 'Chef de Documentation') :**
 *Representations des interrations simplifiees*
