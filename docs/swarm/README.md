@@ -279,6 +279,44 @@ _Le Traduction traduit la documentation dans différentes langues, en respectant
 _Il collabore avec les rédacteurs pour garantir l'exactitude des traductions et maintenir les versions traduites à jour avec les modifications apportées à la documentation originale._
 _Il assure que les informations sont accessibles à un public plus large et facilite la communication entre les différentes cultures et langues._
 
+### Exemple de Diagramme de Flux de Travail
+
+```plaintext
++--------------------------+
+| Agent Chef de Documentation |
++--------------------------+
+            |
+            v
++--------------------------+
+| Agent Rédacteur Technique |
++--------------------------+
+            |
+            v
++--------------------------+
+| Agent Analyste de Code   |
++--------------------------+
+            |
+            v
++--------------------------+
+| Agent Vérificateur de Documentation |
++--------------------------+
+            |
+            v
++--------------------------+
+| Agent de Mise en Page    |
++--------------------------+
+            |
+            v
++--------------------------+
+| Agent de Traduction      |
++--------------------------+
+            |
+            v
++--------------------------+
+| Agent Chef de Documentation |
++--------------------------+
+```
+
 ### Exemple de Macro-Interractions
 
 #### Comment les agents interagissent-ils pour créer et maintenir la documentation ?
